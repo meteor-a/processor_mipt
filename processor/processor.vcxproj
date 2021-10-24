@@ -162,6 +162,14 @@
     <ClInclude Include="disassembler\disassembler.h" />
     <ClInclude Include="logger\logger.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="assembler.txt" />
+    <Text Include="code.txt" />
+    <Text Include="disassembler.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

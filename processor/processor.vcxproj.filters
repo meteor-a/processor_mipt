@@ -78,4 +78,20 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="code.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="disassembler.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="assembler.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+  </ItemGroup>
 </Project>
