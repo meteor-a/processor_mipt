@@ -1,4 +1,5 @@
-﻿#include "cpu.h"
+﻿/*
+#include "cpu.h"
 #include "../constant/constant_filename.h"
 
 int main(int argc, char* argv[]) {
@@ -10,4 +11,4 @@ int main(int argc, char* argv[]) {
     ExecuteCPU(filename_asm);
 }
 
-                             
+  */                           

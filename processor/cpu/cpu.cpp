@@ -249,3 +249,20 @@ static void CMD_EX_GRAPH(CPU* cpu) {
     //printf("DRAW");
     DrawInTerminal(LINUX_CODE(&(cpu->window),) cpu->ram_memory.ram, cpu->ram_memory.size_ram, cpu->ram_memory.size_ram + cpu->ram_memory.size_video_ram);
 }
+
+static void CMD_EX_IN(CPU* cpu) {
+    ++cpu->ip;
+    int   arg_const = 0;
+    float arg_float = 0;
+repeat_read:
+    if (scanf("%d", &arg_const) == 1) {
+        StackPush(&(cpu->stack), arg_const);
+    }
+    else if (scanf("%f", &arg_float) == 1) {
+        StackPush(&(cpu->stack), arg_float * PRECISION);
+    }
+    else {
+        CreateLog("Incorrect type input", TypeLog::WARNING_);
+        goto repeat_read;
+    }
+}
