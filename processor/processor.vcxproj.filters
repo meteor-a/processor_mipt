@@ -74,5 +74,8 @@
     <ClInclude Include="cpu\graphics\graphics.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="base_lib\default_lib.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

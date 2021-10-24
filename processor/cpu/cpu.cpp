@@ -69,7 +69,7 @@ void KillCPU(CPU* cpu) {
 static void CMD_EX_HLT(CPU* cpu) {
     free(cpu->code);
     StackDestructor(&(cpu->stack));
-    printf("CPU end");
+    printf("\nCPU end\n");
     exit(0);
 }
 

@@ -18,23 +18,23 @@ struct REGISTER {
     int registr[4] = {};
 };
 
-const int RAM_BYTE = 1024;
-const int RAM_VIDEO_BYTE = 256;
+const int RAM_BYTE       = 1024;
+const int RAM_VIDEO_BYTE = HEIGHT_WINDOW * WIDTH_WINDOW;
 
 struct RAM {
-    size_t size_ram = RAM_BYTE;
-    size_t size_video_ram = RAM_VIDEO_BYTE;
+    size_t size_ram                    = RAM_BYTE;
+    size_t size_video_ram              = RAM_VIDEO_BYTE;
     int ram[RAM_BYTE + RAM_VIDEO_BYTE] = {};
 };
 
 struct CPU {
-    REGISTER reg = {};
-    RAM ram_memory = {};
-    size_t ip = 0;
-    char* code = {};
-    Stack_t stack = {};
-    Stack_t stack_call = {};
+    REGISTER reg        = {};
+    RAM      ram_memory = {};
+    size_t   ip         = 0;
+    char*    code       = {};
+    Stack_t stack       = {};
+    Stack_t stack_call  = {};
 };
 
-void ExecuteCPU(const char* filename_assembler);
-size_t InitAsmCode(CPU* cpu, const char* filename_assembler);
+void   ExecuteCPU  (const char* filename_assembler);
+size_t InitAsmCode (CPU* cpu, const char* filename_assembler);

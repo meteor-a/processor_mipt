@@ -80,15 +80,3 @@ static long long getFileSize(FILE* file/*!< - Pointer to opened file*/) {
 
   return sz;
 }
-
-#ifndef DEBUG_MODE
-    #define DEBUG_MODE DEBUG_MODE_OFF
-#endif
-
-#if DEBUG_MODE == DEBUG_MODE_ON
-    #define DEBUG_CODE_ADD(...) __VA_ARGS__
-#endif
-
-#if DEBUG_MODE == DEBUG_MODE_OFF
-    #define DEBUG_CODE_ADD(...)
-#endif

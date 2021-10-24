@@ -114,7 +114,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -154,6 +154,7 @@
     <ClInclude Include="assembler\asm_const.h" />
     <ClInclude Include="assembler\assembler.h" />
     <ClInclude Include="assembler\text_lib\text_lib.h" />
+    <ClInclude Include="base_lib\default_lib.h" />
     <ClInclude Include="constant\constant_filename.h" />
     <ClInclude Include="cpu\cpu.h" />
     <ClInclude Include="cpu\graphics\graphics.h" />
