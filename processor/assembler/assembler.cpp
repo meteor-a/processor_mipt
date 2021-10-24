@@ -133,12 +133,12 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                 cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + RAM_ARG_CMD + CONST_ARG_CMD;                                                                                \
                 is_arg_const = true;                                                                                                                                          \
             }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %1[abcd]x+%d", reg, &arg_const) == 2 && is_leftside_arg == 1) {               \
+            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %1[abcd]x+%f", reg, &arg_const) == 2 && is_leftside_arg == 1) {               \
                 cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + REG_ARG_CMD + CONST_ARG_CMD;                                                                                \
                 is_arg_const = true;                                                                                                                                          \
                 is_reg = true;                                                                                                                                                \
             }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %d+%1[abcd]x", &arg_const, reg) == 2 && is_leftside_arg == 1) {               \
+            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %f+%1[abcd]x", &arg_const, reg) == 2 && is_leftside_arg == 1) {               \
                 cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD + REG_ARG_CMD;                                                                                \
                 is_arg_const = true;                                                                                                                                          \
                 is_reg = true;                                                                                                                                                \
@@ -147,7 +147,7 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                 cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + REG_ARG_CMD;                                                                                                \
                 is_reg = true;                                                                                                                                                \
             }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %d", &arg_const) == 1 && is_leftside_arg == 1) {                              \
+            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %f", &arg_const) == 1 && is_leftside_arg == 1) {                              \
                 cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD;                                                                                              \
                 is_arg_const = true;                                                                                                                                          \
             }                                                                                                                                                                 \
@@ -155,7 +155,7 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                 pos = FindPosLabel(arg_label, *count_labels, labels_arr);                                                                                                     \
                 if (pos != -1) {                                                                                                                                              \
                     commands_arr[ip++] = (char)((int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD);                                                                       \
-                    *((int*)(commands_arr + ip)) = pos;                                                                                                                       \
+                    *((int*)(commands_arr + ip)) = pos * PRECISION;                                                                                                                       \
                     ip += sizeof(int);                                                                                                                                        \
                 }                                                                                                                                                             \
                 else if (step == 1) {                                                                                                                                         \
@@ -186,7 +186,7 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
             commands_arr[ip++] = reg[0];                                                                                                                                      \
         }                                                                                                                                                                     \
         if (is_arg_const) {                                                                                                                                                   \
-            *((int*)(commands_arr + ip)) = arg_const;                                                                                                                         \
+            *((int*)(commands_arr + ip)) = (int)(arg_const * PRECISION);                                                                                                                         \
             ip += sizeof(int);                                                                                                                                                \
         }                                                                                                                                                                     \
     }
@@ -206,8 +206,8 @@ static void ChangeWordsToCodes(TextStruct* programm_code_text, const char* filen
     bool is_was_hlt = false;
 
     for (size_t cur_line = 0; cur_line < programm_code_text->num_strings; ++cur_line) {
-        int arg_const = 0;
         char reg[2] = { 0 };
+        float arg_const = 0;
         char arg_label[MAX_LABEL_LENGTH] = { 0 };
         int  cmd_int = 0;        
         bool is_arg_const = false;

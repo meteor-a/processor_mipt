@@ -1,2 +1,2 @@
-IN
+PUSH [3.5]
 HLT

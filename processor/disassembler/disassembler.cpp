@@ -12,10 +12,10 @@
             arg_const = 0;                                                                 \
             if (is_reg && is_const) {                                                      \
                 reg[0] = buffer[count_byte++];                                             \
-                arg_const = *((int*)(buffer + count_byte));                                \
+                arg_const = (*((int*)(buffer + count_byte))) / (float)PRECISION;           \
                 count_byte += sizeof(int);                                                 \
             } else if (is_const) {                                                         \
-                arg_const = *((int*)(buffer + count_byte));                                \
+                arg_const = (*((int*)(buffer + count_byte))) /  (float)PRECISION;          \
                 count_byte += sizeof(int);                                                 \
             }                                                                              \
             else if (is_reg) {                                                             \
@@ -34,12 +34,12 @@
                 fprintf(file_disassembler, "]");                                           \
             } else {                                                                       \
                 if (is_reg && is_const) {                                                  \
-                    fprintf(file_disassembler, " %cx+%d", reg[0], arg_const);              \
+                    fprintf(file_disassembler, " %cx+%.3f", reg[0], arg_const);            \
                 } else if (is_reg) {                                                       \
                     fprintf(file_disassembler, " %cx", reg[0]);                            \
                 }                                                                          \
                 else if (is_const) {                                                       \
-                    fprintf(file_disassembler, " %d", arg_const);                          \
+                    fprintf(file_disassembler, " %.3f", arg_const);                        \
                 }                                                                          \
             }                                                                              \
         } else {                                                                           \
@@ -68,7 +68,7 @@ void CreateTextFromAssembler(const char* filename_assembler, const char* filenam
         bool is_reg = false;                   
         bool is_const = false;               
         char reg[2] = { 0 };                                                           
-        int arg_const = 0;
+        float arg_const = 0;
 
         if (1 == 0) {
 
