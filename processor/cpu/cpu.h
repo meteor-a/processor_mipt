@@ -27,11 +27,18 @@ struct RAM {
     int ram[RAM_BYTE + RAM_VIDEO_BYTE] = {};
 };
 
+#ifdef __linux__
+    #define LINUX_CODE(...) __VA_ARGS__
+#elif _WIN32
+    #define LINUX_CODE(...)
+#endif
+
 struct CPU {
     REGISTER reg        = {};
     RAM      ram_memory = {};
     size_t   ip         = 0;
     char*    code       = {};
+    LINUX_CODE(sf::RenderWindow window;)
     Stack_t stack       = {};
     Stack_t stack_call  = {};
 };
