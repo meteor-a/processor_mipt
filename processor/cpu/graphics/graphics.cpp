@@ -33,8 +33,8 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
 
 #elif __linux__
 
-void DrawInTerminal(sf::RenderWindow window, int* memory, size_t start_ind_video_mem, size_t size_mem) {
-    window(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
+void DrawInTerminal(sf::RenderWindow* window, int* memory, size_t start_ind_video_mem, size_t size_mem) {
+    window->create(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
     
     sf::Texture bufferTexture;
     sf::Sprite  buffferSprite;
@@ -54,9 +54,9 @@ void DrawInTerminal(sf::RenderWindow window, int* memory, size_t start_ind_video
     bufferTexture.loadFromImage(img);
     buffferSprite.setTexture(bufferTexture);
     
-    window.clear();    
-    window.draw(buffferSprite);
-    window.display();
+    window->clear();    
+    window->draw(buffferSprite);
+    window->display();
 
     return;
 }

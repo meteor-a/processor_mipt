@@ -247,5 +247,5 @@ static void CMD_EX_RET(CPU* cpu) {
 static void CMD_EX_GRAPH(CPU* cpu) {
     ++cpu->ip;
     //printf("DRAW");
-    DrawInTerminal(cpu->ram_memory.ram, cpu->ram_memory.size_ram, cpu->ram_memory.size_ram + cpu->ram_memory.size_video_ram);
+    DrawInTerminal(LINUX_CODE(&(cpu->window),) cpu->ram_memory.ram, cpu->ram_memory.size_ram, cpu->ram_memory.size_ram + cpu->ram_memory.size_video_ram);
 }

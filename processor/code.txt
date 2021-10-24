@@ -1,7 +1,11 @@
 PUSH 4
 PUSH 5
+
 POP [1512]
 POP [1345]
-
 GRAPH
+PUSH 5
+uy:
+OUT
+JMP uy
 HLT
