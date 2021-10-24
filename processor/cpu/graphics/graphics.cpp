@@ -32,26 +32,33 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
 }
 
 #elif __linux__
-void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Hello From SFML");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Magenta);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                window.close();
+void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
+    sf::RenderWindow window(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
+    
+    sf::Texture bufferTexture;
+    sf::Sprite  buffferSprite;
+    sf::Image   img;
+    img.create(WIDTH_WINDOW, HEIGHT_WINDOW, sf::Color::White);
+
+    for (int w_count = 0; w_count < WIDTH_WINDOW; ++w_count) {
+        for (int h_count = 0; h_count < HEIGHT_WINDOW; ++h_count) {
+            if(memory[start_ind_video_mem + w_count * WIDTH_WINDOW + h_count] != 0) {
+                img.setPixel(w_count, h_count, sf::Color::Green);
+            } else {
+                img.setPixel(w_count, h_count, sf::Color::Red);
             }
         }
-        window.clear();
-        window.draw(shape);
-        window.display();
+    }    
 
-    }
+    bufferTexture.loadFromImage(img);
+    buffferSprite.setTexture(bufferTexture);
+    
+    window.clear();    
+    window.draw(buffferSprite);
+    window.display();
 
     return;
 }
+
 #endif
