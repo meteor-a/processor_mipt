@@ -74,7 +74,7 @@ void CreateTextFromAssembler(const char* filename_assembler, const char* filenam
 
         }
 
-        #include "../../commands/def/cmd_def.h"
+        #include "../commands/def/cmd_def.h"
 
     }
 

@@ -15,7 +15,7 @@
 #ifdef __linux__
 #define _IsBadReadPtr(pointer) _IsBadReadPtr__(pointer, sizeof(pointer))    
 
-bool _IsBadReadPtr__(void* pointer, size_t size) {
+static bool _IsBadReadPtr__(void* pointer, size_t size) {
   int nullfd = open("/dev/random", O_WRONLY);
 
   if (write(nullfd, pointer, size) < 0) {
