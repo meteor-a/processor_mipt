@@ -6,6 +6,12 @@
 
 /*--------------------------------------------------------------------------*/
 
+#ifdef __linux__
+    #include <SFML/Graphics.hpp>
+#endif
+
+/*--------------------------------------------------------------------------*/
+
 static const int HEIGHT_WINDOW = 16;
 static const int WIDTH_WINDOW  = 64;
 

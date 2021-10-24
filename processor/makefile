@@ -11,12 +11,15 @@ name_cpu_exe=cpu.exe
 name_asm_exe=asm.exe
 name_disasm_exe=disasm.exe
 
-LDFLAGS = -lsfml-graphics-d -lsfml-audio-d -lsfml-window-d -lsfml-system-d
+LDFLAGS = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
-.PHONY: cpu asm disasm clean
+.PHONY: cpu cpu_sfml asm disasm clean
 
 clean:
 	-rm $(path_bin)/*.o
+
+cpu_sfml: $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o 
+	g++ $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o $(LDFLAGS) -o $(path_exe)/$(name_cpu_exe) 
 
 cpu: $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o 
 	g++ $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o -o $(path_exe)/$(name_cpu_exe) 

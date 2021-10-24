@@ -33,6 +33,6 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
 
 #elif __linux__
 void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
-
+    
 }
 #endif
