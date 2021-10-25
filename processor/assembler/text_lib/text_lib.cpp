@@ -80,28 +80,29 @@ _ERRORS_TEXTLIB TextDestructor(TextStruct* text) {
 }
 
 _ERRORS_TEXTLIB EraseSpaceStartEndStr(StringStruct* str_input) {
-  if (_IsBadReadPtr(str_input)) {
-    return _ERRORS_TEXTLIB::ERROR_BAD_PTR;
-  }
-
-  for (size_t start_symb = 0, end_symb = str_input->lenght - 1; start_symb < end_symb;) {
-    if (str_input->str[start_symb] == ' ') {
-      str_input->str[start_symb] = '\0';
-      --str_input->lenght;
-      ++start_symb;
-      continue;
-    }
-    if (str_input->str[end_symb] == ' ') {
-      str_input->str[end_symb] = '\0';
-      --str_input->lenght;
-      --end_symb;
-      continue;
+    if (_IsBadReadPtr(str_input)) {
+        return _ERRORS_TEXTLIB::ERROR_BAD_PTR;
     }
 
-    break;
-  }
+    for (size_t start_symb = 0, end_symb = str_input->lenght - 1; start_symb < end_symb;) {
+        if (str_input->str[start_symb] == ' ') {
+            str_input->str[start_symb] = '\0';
+            ++str_input->str;
+            --str_input->lenght;
+            ++start_symb;
+            continue;
+        }
+        if (str_input->str[end_symb] == ' ') {
+            str_input->str[end_symb] = '\0';
+            --str_input->lenght;
+            --end_symb;
+            continue;
+        }
 
-  return _ERRORS_TEXTLIB::SUCCESSFUL;
+        break;
+    }
+
+    return _ERRORS_TEXTLIB::SUCCESSFUL;
 }
 
 /**
