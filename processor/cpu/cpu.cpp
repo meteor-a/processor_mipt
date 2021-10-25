@@ -2,6 +2,7 @@
 
 static void CPUConstructor(CPU* cpu);
 static void KillCPU(CPU* cpu);
+static void DumpCPU(CPU* cpu);
 
 #define DEF_CMD(cmd_in, num_args, is_leftside_arg, required) \
     static void CMD_EX_##cmd_in(CPU* cpu);    
@@ -42,6 +43,10 @@ size_t InitAsmCode(CPU* cpu, const char* filename_assembler) {
     fread(&header, sizeof(HEADER_ASM_FILE), 1, file_assembler);
     fseek(file_assembler, sizeof(HEADER_ASM_FILE), SEEK_SET);
 
+    if (header.ver_asm != VER_ASSEMBLER_CMD) {
+        CreateLog("Version of header assembler file do not equal current version. Please re-create assembler file.", TypeLog::WARNING_);
+    }
+
     cpu->code = (char*)calloc(header.size_in_byte, sizeof(char));
     size_t num_read_symb = fread(cpu->code, sizeof(char), header.size_in_byte, file_assembler);
 
@@ -59,16 +64,10 @@ static void CPUConstructor(CPU* cpu) {
     cpu->ram_memory = {};
 }
 
-void KillCPU(CPU* cpu) {
-    free(cpu->code);
-    StackDestructor(&(cpu->stack));
-    printf("\nCPU dead\n");
-    exit(-1);
-}
-
 static void CMD_EX_HLT(CPU* cpu) {
     free(cpu->code);
     StackDestructor(&(cpu->stack));
+    StackDestructor(&(cpu->stack_call));
     printf("\nCPU end\n");
     exit(0);
 }
@@ -271,4 +270,16 @@ repeat_read:
         CreateLog("Incorrect type input", TypeLog::WARNING_);
         goto repeat_read;
     }
+}
+
+void KillCPU(CPU* cpu) {
+    free(cpu->code);
+    StackDestructor(&(cpu->stack));
+    StackDestructor(&(cpu->stack_call));
+    printf("\nCPU dead\n");
+    exit(-1);
+}
+
+void DumpCPU(CPU* cpu) {
+    
 }

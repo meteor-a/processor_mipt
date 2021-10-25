@@ -1,8 +1,4 @@
-POP [1]
-RR:
-JMP UI
-TT:
-UI:
-JMP RR
-JMP TT
+PUSH 4
+PUSH [2]
+OUT
 HLT
