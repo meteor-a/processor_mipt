@@ -1,4 +1,4 @@
-        /*
+
 #include "assembler.h"
 #include "../constant/constant_filename.h"
 
@@ -16,4 +16,3 @@ int main(int argc, char* argv[]) {
 
     CreateAssemblerFile(filename_code, filename_asm);
 }
-            */

@@ -1,3 +1,2 @@
-PUSH ax+35.200
-OUT
+JMP 0.000
 HLT

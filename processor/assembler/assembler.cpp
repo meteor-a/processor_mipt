@@ -166,6 +166,9 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                     strcpy(labels_arr[*count_labels].name_label, arg_label);                                                                                                  \
                     labels_arr[*count_labels].pos = -1;                                                                                                                       \
                     ++(*count_labels);                                                                                                                                        \
+                    commands_arr[ip++] = (char)((int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD);                                                                       \
+                    *((int*)(commands_arr + ip)) = 0;                                                                                                                         \
+                    ip += sizeof(int);                                                                                                                                        \
                 }                                                                                                                                                             \
                 else {                                                                                                                                                        \
                     CreateLog("Cant find label", TypeLog::ERROR_);                                                                                                            \
@@ -261,15 +264,19 @@ static int FindPosLabel(const char* label, size_t count_labels, LABEL_* labels_a
 }
 
 static void SetPosLabel(const char* label, size_t ip, size_t* count_labels, LABEL_* labels_arr) {
-    if (FindPosLabel(label, *count_labels, labels_arr) == -1) {
-        strcpy(labels_arr[*count_labels].name_label, label);
-        labels_arr[*count_labels].pos = ip;
-        ++(*count_labels);
+    for (size_t cur_label = 0; cur_label < *count_labels; ++cur_label) {
+        if (strcmp(labels_arr[cur_label].name_label, label) == 0) {
+            if (labels_arr[cur_label].pos != -1) {
+                CreateLog("Repeat label", TypeLog::ERROR_);
+                KillAsm();
+            }
+            labels_arr[cur_label].pos = ip;
+            return;
+        }
     }
-    else {
-        CreateLog("Repeat label", TypeLog::ERROR_);
-        KillAsm();
-    }
+    strcpy(labels_arr[*count_labels].name_label, label);
+    labels_arr[*count_labels].pos = ip;                                                                                                                       
+    ++(*count_labels);
 }
 
 static void WriteAssemblerToFile(char* code_arr, size_t size, const char* filename_assembler_text) {
