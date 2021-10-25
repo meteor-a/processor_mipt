@@ -18,8 +18,6 @@ struct REGISTER {
     int registr[4] = {};
 };
 
-const int PRECISION = 1000;
-
 const int RAM_BYTE       = 1024;
 const int RAM_VIDEO_BYTE = HEIGHT_WINDOW * WIDTH_WINDOW;
 

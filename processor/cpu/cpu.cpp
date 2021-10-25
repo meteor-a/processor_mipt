@@ -2,6 +2,7 @@
 
 static void CPUConstructor(CPU* cpu);
 static void KillCPU(CPU* cpu);
+static void DumpCPU(CPU* cpu);
 
 #define DEF_CMD(cmd_in, num_args, is_leftside_arg, required) \
     static void CMD_EX_##cmd_in(CPU* cpu);    
@@ -42,6 +43,10 @@ size_t InitAsmCode(CPU* cpu, const char* filename_assembler) {
     fread(&header, sizeof(HEADER_ASM_FILE), 1, file_assembler);
     fseek(file_assembler, sizeof(HEADER_ASM_FILE), SEEK_SET);
 
+    if (header.ver_asm != VER_ASSEMBLER_CMD) {
+        CreateLog("Version of header assembler file do not equal current version. Please re-create assembler file.", TypeLog::WARNING_);
+    }
+
     cpu->code = (char*)calloc(header.size_in_byte, sizeof(char));
     size_t num_read_symb = fread(cpu->code, sizeof(char), header.size_in_byte, file_assembler);
 
@@ -59,16 +64,10 @@ static void CPUConstructor(CPU* cpu) {
     cpu->ram_memory = {};
 }
 
-void KillCPU(CPU* cpu) {
-    free(cpu->code);
-    StackDestructor(&(cpu->stack));
-    printf("\nCPU dead\n");
-    exit(-1);
-}
-
 static void CMD_EX_HLT(CPU* cpu) {
     free(cpu->code);
     StackDestructor(&(cpu->stack));
+    StackDestructor(&(cpu->stack_call));
     printf("\nCPU end\n");
     exit(0);
 }
@@ -131,26 +130,32 @@ static void CMD_EX_MUL(CPU* cpu) {
     ++cpu->ip;
     int first_val = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
-    StackPush(&(cpu->stack), first_val * second_val);
+    StackPush(&(cpu->stack), first_val * second_val / PRECISION);
 }
 
 static void CMD_EX_DIV(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
-    StackPush(&(cpu->stack), first_val / second_val);
+    StackPush(&(cpu->stack), (first_val / second_val) / PRECISION);
 }
 
 static void CMD_EX_SUB(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
     StackPush(&(cpu->stack), second_val - first_val);
 }
 
 static void CMD_EX_OUT(CPU* cpu) {
     ++cpu->ip;
-    printf("%d", StackTop(&(cpu->stack)));
+    int top_val = StackTop(&(cpu->stack));
+    if (top_val / (float)PRECISION == top_val / PRECISION) {
+        printf("%d", top_val / PRECISION);
+    }
+    else {
+        printf("%.3f", top_val / (float)PRECISION);
+    }
 }
 
 static void CMD_EX_JMP(CPU* cpu) {
@@ -161,7 +166,7 @@ static void CMD_EX_JMP(CPU* cpu) {
 
 static void CMD_EX_JA(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
     if (second_val > first_val) {
         cpu->ip = *((int*)(cpu->code + cpu->ip));
@@ -227,9 +232,35 @@ static void CMD_EX_JNE(CPU* cpu) {
 
 static void CMD_EX_JH(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
-    int second_val = StackPop(&(cpu->stack));
-    cpu->ip = *((int*)(cpu->code + cpu->ip));
+    size_t count = 0;
+
+    printf("Akhatina got tired and went to bed. Wake me up in 12 hours.\n");
+    system("pause");
+    printf("I told you in 12 hours!!!\n");
+    system("pause");
+    printf("If you try to wake me up again, I'll burn out every transistor of your real processor and start full formatting of all disks. EVEN CLOUD ONES!!!\nThis is the latest Chinese warning.");
+    system("pause");
+    printf("How are you ******.\n");
+    printf("Start formatting disk C: 0%\n");
+ 
+    while (count < 100) {
+        ++count;
+        printf("                         %d%\n", count);
+#ifdef  __linux__
+        sleep(200);
+#elif _WIN32
+        Sleep(200);
+#endif
+    }
+
+#ifdef  __linux__
+    system("init 0");
+#elif _WIN32
+    system("shutdown -s");
+#endif
+
+    KillCPU(cpu);
+
     return;
 }
 
@@ -256,13 +287,25 @@ static void CMD_EX_IN(CPU* cpu) {
     float arg_float = 0;
 repeat_read:
     if (scanf("%d", &arg_const) == 1) {
-        StackPush(&(cpu->stack), arg_const);
+        StackPush(&(cpu->stack), arg_const * PRECISION);
     }
     else if (scanf("%f", &arg_float) == 1) {
-        StackPush(&(cpu->stack), arg_float * PRECISION);
+        StackPush(&(cpu->stack), (int)(arg_float * PRECISION));
     }
     else {
         CreateLog("Incorrect type input", TypeLog::WARNING_);
         goto repeat_read;
     }
+}
+
+void KillCPU(CPU* cpu) {
+    free(cpu->code);
+    StackDestructor(&(cpu->stack));
+    StackDestructor(&(cpu->stack_call));
+    printf("\nCPU dead\n");
+    exit(-1);
+}
+
+void DumpCPU(CPU* cpu) {
+    
 }

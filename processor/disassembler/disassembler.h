@@ -8,6 +8,7 @@
 
 #include "../commands/assembler_commands.h"
 #include "../base_lib/default_lib.h"
+#include "../logger/logger.h"
 
 /*--------------------------------------------------------------------------*/
 

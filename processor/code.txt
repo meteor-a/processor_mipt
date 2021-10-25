@@ -1,2 +1,5 @@
-IN
+PUSH 4
+PUSH [2]
+JH 4
+OUT
 HLT
