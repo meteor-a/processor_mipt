@@ -1,2 +1,3 @@
-PUSH [0]
+PUSH ax+35.200
+OUT
 HLT

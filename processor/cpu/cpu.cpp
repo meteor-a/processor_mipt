@@ -131,26 +131,32 @@ static void CMD_EX_MUL(CPU* cpu) {
     ++cpu->ip;
     int first_val = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
-    StackPush(&(cpu->stack), first_val * second_val);
+    StackPush(&(cpu->stack), first_val * second_val / PRECISION);
 }
 
 static void CMD_EX_DIV(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
-    StackPush(&(cpu->stack), first_val / second_val);
+    StackPush(&(cpu->stack), (first_val / second_val) / PRECISION);
 }
 
 static void CMD_EX_SUB(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
     StackPush(&(cpu->stack), second_val - first_val);
 }
 
 static void CMD_EX_OUT(CPU* cpu) {
     ++cpu->ip;
-    printf("%d", StackTop(&(cpu->stack)));
+    int top_val = StackTop(&(cpu->stack));
+    if (top_val / (float)PRECISION == top_val / PRECISION) {
+        printf("%d", top_val / PRECISION);
+    }
+    else {
+        printf("%.3f", top_val / (float)PRECISION);
+    }
 }
 
 static void CMD_EX_JMP(CPU* cpu) {
@@ -161,7 +167,7 @@ static void CMD_EX_JMP(CPU* cpu) {
 
 static void CMD_EX_JA(CPU* cpu) {
     ++cpu->ip;
-    int first_val = StackPop(&(cpu->stack));
+    int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
     if (second_val > first_val) {
         cpu->ip = *((int*)(cpu->code + cpu->ip));
@@ -256,10 +262,10 @@ static void CMD_EX_IN(CPU* cpu) {
     float arg_float = 0;
 repeat_read:
     if (scanf("%d", &arg_const) == 1) {
-        StackPush(&(cpu->stack), arg_const);
+        StackPush(&(cpu->stack), arg_const * PRECISION);
     }
     else if (scanf("%f", &arg_float) == 1) {
-        StackPush(&(cpu->stack), arg_float * PRECISION);
+        StackPush(&(cpu->stack), (int)(arg_float * PRECISION));
     }
     else {
         CreateLog("Incorrect type input", TypeLog::WARNING_);
