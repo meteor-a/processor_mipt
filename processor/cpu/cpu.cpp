@@ -137,7 +137,7 @@ static void CMD_EX_DIV(CPU* cpu) {
     ++cpu->ip;
     int first_val  = StackPop(&(cpu->stack));
     int second_val = StackPop(&(cpu->stack));
-    StackPush(&(cpu->stack), (first_val / second_val) / PRECISION);
+    StackPush(&(cpu->stack), (second_val / (float)first_val) * PRECISION);
 }
 
 static void CMD_EX_SUB(CPU* cpu) {
@@ -288,19 +288,30 @@ static void CMD_EX_GRAPH(CPU* cpu) {
 }
 
 static void CMD_EX_IN(CPU* cpu) {
+    bool is_mem = ((int)cpu->code[cpu->ip] & 128) == RAM_ARG_CMD;
+    bool is_reg = ((int)cpu->code[cpu->ip] & 64) == REG_ARG_CMD;
+    bool is_const = ((int)cpu->code[cpu->ip] & 32) == CONST_ARG_CMD;
     ++cpu->ip;
-    int   arg_const = 0;
-    float arg_float = 0;
-repeat_read:
-    if (scanf("%d", &arg_const) == 1) {
-        StackPush(&(cpu->stack), arg_const * PRECISION);
+
+    float in_val = 0;
+    scanf("%f", &in_val);
+    in_val *= PRECISION;
+
+    if (is_mem) {
+        if (is_reg && is_const) {
+            cpu->ram_memory.ram[cpu->reg.registr[cpu->code[cpu->ip++] - 'a'] + *((int*)(cpu->code + cpu->ip))] = in_val;
+            cpu->ip += sizeof(int);
+        }
+        else if (is_reg) {
+            cpu->ram_memory.ram[cpu->reg.registr[cpu->code[cpu->ip++] - 'a']] = in_val;
+        }
+        else if (is_const) {
+            cpu->ram_memory.ram[*((int*)(cpu->code + cpu->ip))] = in_val;
+            cpu->ip += sizeof(int);
+        }
     }
-    else if (scanf("%f", &arg_float) == 1) {
-        StackPush(&(cpu->stack), (int)(arg_float * PRECISION));
-    }
-    else {
-        CreateLog("Incorrect type input", TypeLog::WARNING_);
-        goto repeat_read;
+    else if (is_reg) { // register
+        cpu->reg.registr[cpu->code[cpu->ip++] - 'a'] = in_val;
     }
 }
 

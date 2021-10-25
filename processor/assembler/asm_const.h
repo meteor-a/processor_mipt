@@ -1,9 +1,9 @@
 #pragma once
 
 const int MAX_CODE_LENGTH    = 1024;
-const int MAX_COMMAND_LENGTH = 10;
+const int MAX_COMMAND_LENGTH = 30;
 const int MAX_LABELS_COUNT   = 100;
-const int MAX_LABEL_LENGTH   = 20;
+const int MAX_LABEL_LENGTH   = 30;
 
 const int PRECISION = 1000;
 

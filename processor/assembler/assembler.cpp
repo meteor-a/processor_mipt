@@ -88,7 +88,7 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                 --text->num_strings;
                 continue;
             }
-            EraseSpaceStartEndStr(&(text->strings_text[n_line]));
+            //EraseSpaceStartEndStr(&(text->strings_text[n_line]));
 
             text->strings_text[n_line].lenght = strlen(text->strings_text[n_line].str);
 
@@ -160,15 +160,15 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
 
             pos = FindPosLabel(arg_label, *count_labels, labels_arr);                                                                                                     
             if (pos != -1) {                                                                                                                                              
-                commands_arr[*ip++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
+                commands_arr[(*ip)++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
                 *((int*)(commands_arr + *ip)) = pos;                                                                                                                      
-                *(ip) += sizeof(int);                                                                                                                                        
+                (*ip) += sizeof(int);                                                                                                                                        
             }                                                                                                                                                             
             else if (step == 1) {                                                                                                                                         
                 strcpy(labels_arr[*count_labels].name_label, arg_label);                                                                                                  
                 labels_arr[*count_labels].pos = -1;                                                                                                                       
                 ++(*count_labels);                                                                                                                                        
-                commands_arr[*(ip)++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
+                commands_arr[(*ip)++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
                 *((int*)(commands_arr + *ip)) = 0;                                                                                                                        
                 (*ip) += sizeof(int);                                                                                                                                        
             } else {                                                                                                                                                        
@@ -182,11 +182,7 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
             CreateLog("Cant find argument", TypeLog::ERROR_);                                                                                                             
             KillAsm();                                                                                                                                                    
         }
-    } else {
-        if (strlen(cmd) != symb_from_start_cmd) {                                                                                       
-            CreateLog("Cant recognize argument", TypeLog::ERROR_);                                                                                                        
-            KillAsm();                                                                                                                                                    
-        }                                                                                                                                                                 
+    } else {                                                                                                                                                               
         cmd_int = num_cmd;     
     }
 

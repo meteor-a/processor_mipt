@@ -5,7 +5,7 @@ CALL SolveQuadro
 HLT
 
 SolveQuadro:
-    PUSH 0
+	PUSH 0
 	PUSH ax
 	JNE withA
 	PUSH 0
@@ -17,21 +17,22 @@ SolveQuadro:
 	PUSH 8.888 ; infiniti
 	OUT
 	HLT
-
+	
 withA:
-    CALL CalcD
-    PUSH 0
-    PUSH dx
-    JA DISCLessZero
-    CALL CALCXplus
-    CALL CALCXminus
-	HLT
+	JMP CalcD
+	PUSH 0
+	PUSH dx
+	JA DISCLessZero
+	CALL CALCXplus
+	CALL CALCXminus
+	
+	
 
 withB:
 	JMP MinusCdivB
 
 withC:
-	PUSH 0
+	PUSH 0 ; no solution
 	OUT
 	HLT
 
@@ -45,18 +46,15 @@ CalcD:
 	MUL
 	MUL
 	SUB
-	POP dx
-	RET
+	POP [dx]
 
 DISCLessZero:
-	PUSH 0
+	PUSH 0 ; no solution
 	OUT
 	HLT
-
+	
 CALCXplus:
-	PUSH -1
 	PUSH bx
-	MUL
 	PUSH dx
 	SQRT
 	ADD
@@ -65,12 +63,11 @@ CALCXplus:
 	MUL
 	DIV
 	OUT
-	RET
+	HLT
+
 
 CALCXminus:
-	PUSH -1
 	PUSH bx
-	MUL
 	PUSH dx
 	SQRT
 	SUB
@@ -79,8 +76,8 @@ CALCXminus:
 	MUL
 	DIV
 	OUT
-	RET
-
+	HLT
+	
 MinusCdivB:
 	PUSH -1
 	PUSH cx
