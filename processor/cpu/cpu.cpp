@@ -235,11 +235,11 @@ static void CMD_EX_JH(CPU* cpu) {
     size_t count = 0;
 
     printf("Akhatina got tired and went to bed. Wake me up in 12 hours.\n");
-    system("pause");
+    getchar();
     printf("I told you in 12 hours!!!\n");
-    system("pause");
+    getchar();
     printf("If you try to wake me up again, I'll burn out every transistor of your real processor and start full formatting of all disks. EVEN CLOUD ONES!!!\nThis is the latest Chinese warning.");
-    system("pause");
+    getchar();
     printf("How are you ******.\n");
     printf("Start formatting disk C: 0%\n");
  
@@ -247,7 +247,7 @@ static void CMD_EX_JH(CPU* cpu) {
         ++count;
         printf("                         %d%\n", count);
 #ifdef  __linux__
-        sleep(200);
+        sleep(1);
 #elif _WIN32
         Sleep(200);
 #endif
