@@ -8,6 +8,7 @@ path_text_lib=$(path_assembler)/text_lib
 path_logger=./logger
 path_graphics=$(path_cpu)/graphics
 name_cpu_exe=cpu.exe
+name_cpu_sfml_exe=cpu_sfml.exe
 name_asm_exe=asm.exe
 name_disasm_exe=disasm.exe
 
@@ -19,7 +20,7 @@ clean:
 	-rm $(path_bin)/*.o
 
 cpu_sfml: $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o 
-	g++ $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o $(LDFLAGS) -o $(path_exe)/$(name_cpu_exe) 
+	g++ $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o $(LDFLAGS) -o $(path_exe)/$(name_cpu_sfml_exe) 
 
 cpu: $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o 
 	g++ $(path_bin)/main_cpu.o $(path_bin)/cpu.o $(path_bin)/graphics.o $(path_bin)/stack_lib.o $(path_bin)/logger.o -o $(path_exe)/$(name_cpu_exe) 

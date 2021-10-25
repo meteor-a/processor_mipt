@@ -109,95 +109,106 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
     return;
 }
 
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required)                                                                                                                  \
-    else if (strcmp(cmd, #cmd_in) == 0) {                                                                                                                                     \
-        if (required == 1) {                                                                                                                                                  \
-            is_was_hlt = true;                                                                                                                                                \
-        }                                                                                                                                                                     \
-        if (num_args > 0) {                                                                                                                                                   \
-            if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " [%1[abcd]x+%d]", reg, &arg_const) == 2) {                                          \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + RAM_ARG_CMD + REG_ARG_CMD + CONST_ARG_CMD;                                                                  \
-                is_arg_const = true;                                                                                                                                          \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " [%d+%1[abcd]x]", &arg_const, reg) == 2) {                                     \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + RAM_ARG_CMD + CONST_ARG_CMD + REG_ARG_CMD;                                                                  \
-                is_arg_const = true;                                                                                                                                          \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " [%1[abcd]x]", reg) == 1) {                                                    \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + RAM_ARG_CMD + REG_ARG_CMD;                                                                                  \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " [%f]", &arg_const)     == 1 &&                                                \
-                     sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " [%d]", &tmp_arg_const) == 1 && arg_const == tmp_arg_const) {                  \
-                                                                                                                                                                              \
-                arg_const = tmp_arg_const;                                                                                                                                    \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + RAM_ARG_CMD + CONST_ARG_CMD;                                                                                \
-                is_arg_const = true;                                                                                                                                          \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %1[abcd]x+%f", reg, &arg_const) == 2 && is_leftside_arg == 1) {               \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + REG_ARG_CMD + CONST_ARG_CMD;                                                                                \
-                is_arg_const = true;                                                                                                                                          \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %f+%1[abcd]x", &arg_const, reg) == 2 && is_leftside_arg == 1) {               \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD + REG_ARG_CMD;                                                                                \
-                is_arg_const = true;                                                                                                                                          \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %1[abcd]x", reg) == 1) {                                                      \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + REG_ARG_CMD;                                                                                                \
-                is_reg = true;                                                                                                                                                \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %f", &arg_const) == 1 && is_leftside_arg == 1) {                              \
-                cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD;                                                                                              \
-                is_arg_const = true;                                                                                                                                          \
-            }                                                                                                                                                                 \
-            else if (sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %s", arg_label) == 1 &&                                                       \
-                     arg_label[0] != '[' && arg_label[strlen(arg_label) - 1] != ']' && is_leftside_arg == 1) {                                                                \
-                pos = FindPosLabel(arg_label, *count_labels, labels_arr);                                                                                                     \
-                if (pos != -1) {                                                                                                                                              \
-                    commands_arr[ip++] = (char)((int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD);                                                                       \
-                    *((int*)(commands_arr + ip)) = pos;                                                                                                                       \
-                    ip += sizeof(int);                                                                                                                                        \
-                }                                                                                                                                                             \
-                else if (step == 1) {                                                                                                                                         \
-                    strcpy(labels_arr[*count_labels].name_label, arg_label);                                                                                                  \
-                    labels_arr[*count_labels].pos = -1;                                                                                                                       \
-                    ++(*count_labels);                                                                                                                                        \
-                    commands_arr[ip++] = (char)((int)ASSEMBLER_COMMANDS::CMD_##cmd_in + CONST_ARG_CMD);                                                                       \
-                    *((int*)(commands_arr + ip)) = 0;                                                                                                                         \
-                    ip += sizeof(int);                                                                                                                                        \
-                }                                                                                                                                                             \
-                else {                                                                                                                                                        \
-                    CreateLog("Cant find label", TypeLog::ERROR_);                                                                                                            \
-                    KillAsm();                                                                                                                                                \
-                }                                                                                                                                                             \
-                continue;                                                                                                                                                     \
-            }                                                                                                                                                                 \
-            else {                                                                                                                                                            \
-                CreateLog("Cant find argument", TypeLog::ERROR_);                                                                                                             \
-                KillAsm();                                                                                                                                                    \
-            }                                                                                                                                                                 \
-        }                                                                                                                                                                     \
-        else {                                                                                                                                                                \
-            if (programm_code_text->strings_text[cur_line].lenght != symb_to_end_cmd) {                                                                                       \
-                CreateLog("Cant recognize argument", TypeLog::ERROR_);                                                                                                        \
-                KillAsm();                                                                                                                                                    \
-            }                                                                                                                                                                 \
-            cmd_int = (int)ASSEMBLER_COMMANDS::CMD_##cmd_in;                                                                                                                  \
-        }                                                                                                                                                                     \
-        commands_arr[ip++] = (char)cmd_int;                                                                                                                                   \
-        if (is_reg) {                                                                                                                                                         \
-            commands_arr[ip++] = reg[0];                                                                                                                                      \
-        }                                                                                                                                                                     \
-        if (is_arg_const) {                                                                                                                                                   \
-            *((int*)(commands_arr + ip)) = (int)(arg_const * PRECISION);                                                                                                      \
-            ip += sizeof(int);                                                                                                                                                \
-        }                                                                                                                                                                     \
+bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, char* cmd, int num_args, int required, int is_leftside_arg, int symb_from_start_cmd, size_t* count_labels, LABEL_* labels_arr, int step)  {
+    bool is_was_hlt = false;
+    if (required == 1) {                                                                                                                                                  
+            is_was_hlt = true;                                                                                                                                                
     }
+
+    bool  is_arg_const  = false;
+    bool  is_reg        = false;
+    float arg_const     = 0;
+    int   tmp_arg_const = 0;
+    int   cmd_int       = 0; 
+    char  reg[2]        = { 0 };
+    char  arg_label[MAX_LABEL_LENGTH] = { 0 };
+    int   pos           = 0;
+    if (num_args > 0) {
+        if (sscanf(full_cmd + symb_from_start_cmd, " [%1[abcd]x+%d]", reg, &arg_const) == 2 ||
+            sscanf(full_cmd + symb_from_start_cmd, " [%d+%1[abcd]x]", &arg_const, reg) == 2) {
+                cmd_int = num_cmd + RAM_ARG_CMD + REG_ARG_CMD + CONST_ARG_CMD;                                                                  
+                is_arg_const = true;                                                                                                                                          
+                is_reg = true;                                                                                                                                                
+        }
+        else if (sscanf(full_cmd + symb_from_start_cmd, " [%1[abcd]x]", reg) == 1) {
+                cmd_int = num_cmd + RAM_ARG_CMD + REG_ARG_CMD;                                                                                  
+                is_reg = true;                                                                                                                                                
+        }
+        else if (sscanf(full_cmd + symb_from_start_cmd, " [%f]", &arg_const)     == 1 &&
+                     sscanf(full_cmd + symb_from_start_cmd, " [%d]", &tmp_arg_const) == 1 && arg_const == tmp_arg_const) {
+                                                                                                                                                                              
+                arg_const = tmp_arg_const;                                                                                                                                    
+                cmd_int = num_cmd + RAM_ARG_CMD + CONST_ARG_CMD;                                                                                
+                is_arg_const = true;                                                                                                                                          
+        }
+        else if ((sscanf(full_cmd + symb_from_start_cmd, " %1[abcd]x+%f", reg, &arg_const) == 2 || 
+                  sscanf(full_cmd + symb_from_start_cmd, " %f+%1[abcd]x", &arg_const, reg) == 2) && is_leftside_arg == 1) {
+                cmd_int = num_cmd + REG_ARG_CMD + CONST_ARG_CMD;                                                                                
+                is_arg_const = true;                                                                                                                                          
+                is_reg = true;                                                                                                                                                
+        }
+        else if (sscanf(full_cmd + symb_from_start_cmd, " %1[abcd]x", reg) == 1) {
+                cmd_int = num_cmd + REG_ARG_CMD;                                                                                                
+                is_reg = true;                                                                                                                                                
+        }                                                                                                                                                                 
+        else if (sscanf(full_cmd + symb_from_start_cmd, " %f", &arg_const) == 1 && is_leftside_arg == 1) {
+            cmd_int = num_cmd + CONST_ARG_CMD;                                                                                              
+            is_arg_const = true;                                                                                                                                          
+        }
+        else if (sscanf(full_cmd + symb_from_start_cmd, " %s", arg_label) == 1 &&
+                 arg_label[0] != '[' && arg_label[strlen(arg_label) - 1] != ']' && is_leftside_arg == 1) { 
+
+            pos = FindPosLabel(arg_label, *count_labels, labels_arr);                                                                                                     
+            if (pos != -1) {                                                                                                                                              
+                commands_arr[*ip++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
+                *((int*)(commands_arr + *ip)) = pos;                                                                                                                      
+                *(ip) += sizeof(int);                                                                                                                                        
+            }                                                                                                                                                             
+            else if (step == 1) {                                                                                                                                         
+                strcpy(labels_arr[*count_labels].name_label, arg_label);                                                                                                  
+                labels_arr[*count_labels].pos = -1;                                                                                                                       
+                ++(*count_labels);                                                                                                                                        
+                commands_arr[*(ip)++] = (char)(num_cmd + CONST_ARG_CMD);                                                                       
+                *((int*)(commands_arr + *ip)) = 0;                                                                                                                        
+                (*ip) += sizeof(int);                                                                                                                                        
+            } else {                                                                                                                                                        
+                    CreateLog("Cant find label", TypeLog::ERROR_);                                                                                                            
+                    KillAsm();                                                                                                                                                
+            }                                                                                                                                                             
+
+            return is_was_hlt;                                                                                                                                                     
+        }                                                                                                                                                                                                                                                                                                                                     
+        else {                                                                                                                                                                
+            CreateLog("Cant find argument", TypeLog::ERROR_);                                                                                                             
+            KillAsm();                                                                                                                                                    
+        }
+    } else {
+        if (strlen(cmd) != symb_from_start_cmd) {                                                                                       
+            CreateLog("Cant recognize argument", TypeLog::ERROR_);                                                                                                        
+            KillAsm();                                                                                                                                                    
+        }                                                                                                                                                                 
+        cmd_int = num_cmd;     
+    }
+
+    commands_arr[(*ip)++] = (char)cmd_int;
+
+    if (is_reg) {                                                                                                                                                         
+        commands_arr[(*ip)++] = reg[0];                                                                                                                                      
+    }      
+
+    if (is_arg_const) {                                                                                                                                                   
+        *((int*)(commands_arr + (*ip))) = (int)(arg_const * PRECISION);                                                                                                      
+        (*ip) += sizeof(int);                                                                                                                                                
+    }
+
+    return is_was_hlt;
+}                                                                                                                                                                
       
+#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required)         \
+    else if (strcmp(cmd, #cmd_in) == 0) {                            \
+        is_was_hlt |= ParseCommand((int)ASSEMBLER_COMMANDS::CMD_##cmd_in, commands_arr, &ip, programm_code_text->strings_text[cur_line].str, cmd, num_args, required, is_leftside_arg,   \
+                     symb_to_end_cmd, count_labels, labels_arr, step);                                                               \
+    }   
 
 static void ChangeWordsToCodes(TextStruct* programm_code_text, const char* filename_assembler_text, size_t* count_labels, LABEL_* labels_arr, int step) {
     if (_IsBadReadPtr(programm_code_text)) {
@@ -211,23 +222,14 @@ static void ChangeWordsToCodes(TextStruct* programm_code_text, const char* filen
 
     size_t ip              = 0;
     size_t symb_to_end_cmd = 0;
-    bool is_was_hlt         = false;
+    bool is_was_hlt        = false;
 
     for (size_t cur_line = 0; cur_line < programm_code_text->num_strings; ++cur_line) {
-        char  reg[2]        = { 0 };
-        float arg_const     = 0;
-        int   tmp_arg_const = 0;
-        char  arg_label[MAX_LABEL_LENGTH] = { 0 };
-        int   cmd_int      = 0;        
-        bool  is_arg_const = false;
-        bool  is_reg       = false;
-        int   pos          = 0;
         int   count_read_cmd = sscanf(programm_code_text->strings_text[cur_line].str, "%s%n", cmd, &symb_to_end_cmd);
 
         if (1 == 0) {
-
         }
-        
+
         #include "../commands/def/cmd_def.h"
 
         else if (cmd[strlen(cmd) - 1] == ':' && strlen(cmd) >= 2) {

@@ -147,6 +147,12 @@ static void CMD_EX_SUB(CPU* cpu) {
     StackPush(&(cpu->stack), second_val - first_val);
 }
 
+static void CMD_EX_SQRT(CPU* cpu) {
+    ++cpu->ip;
+    int val  = sqrt(StackPop(&(cpu->stack)) / (float)PRECISION) * PRECISION;
+    StackPush(&(cpu->stack), val);
+}
+
 static void CMD_EX_OUT(CPU* cpu) {
     ++cpu->ip;
     int top_val = StackTop(&(cpu->stack));
