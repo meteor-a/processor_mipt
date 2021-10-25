@@ -247,7 +247,7 @@ static void CMD_EX_JH(CPU* cpu) {
         ++count;
         printf("                         %d%\n", count);
 #ifdef  __linux__
-        sleep(1);
+        usleep(100000);
 #elif _WIN32
         Sleep(200);
 #endif
