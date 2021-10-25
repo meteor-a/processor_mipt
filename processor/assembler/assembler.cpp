@@ -109,7 +109,8 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
     return;
 }
 
-bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, char* cmd, int num_args, int required, int is_leftside_arg, int symb_from_start_cmd, size_t* count_labels, LABEL_* labels_arr, int step)  {
+bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, char* cmd, int num_args, int required, int is_leftside_arg, int symb_from_start_cmd, 
+                   size_t* count_labels, LABEL_* labels_arr, int step)  {
     bool is_was_hlt = false;
     if (required == 1) {                                                                                                                                                  
             is_was_hlt = true;                                                                                                                                                
