@@ -61,7 +61,7 @@ void ParseArg(FILE* file_disassembler, size_t* count_byte, int num_args, char* b
 }
     
 
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required) \
+#define DEF_CMD(cmd_in, num_args, ...) \
     ParseArg(file_disassembler, &count_byte, num_args, buffer, (int)ASSEMBLER_COMMANDS::CMD_##cmd_in, #cmd_in);
 
 void CreateTextFromAssembler(const char* filename_assembler, const char* filename_output) {

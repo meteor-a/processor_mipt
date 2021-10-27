@@ -202,7 +202,7 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
     return is_was_hlt;
 }                                                                                                                                                                
       
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required)                          \
+#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required, ...)                 \
     else if (strcmp(cmd, #cmd_in) == 0) {                                             \
         is_was_hlt |= ParseCommand((int)ASSEMBLER_COMMANDS::CMD_##cmd_in, commands_arr, &ip, programm_code_text->strings_text[cur_line].str, cmd, num_args, required, is_leftside_arg,   \
                                     symb_to_end_cmd, count_labels, labels_arr, step);  \

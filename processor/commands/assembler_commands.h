@@ -27,7 +27,7 @@ struct LABEL_ {
     header.ver_asm      = VER_ASSEMBLER_CMD;\
     header.size_in_byte = size;
 
-#define DEF_CMD(cmd, rabbish_num_args, rabbish_is_leftside_arg, required) \
+#define DEF_CMD(cmd, ...) \
     CMD_##cmd,
 
 enum class ASSEMBLER_COMMANDS {
