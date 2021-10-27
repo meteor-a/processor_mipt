@@ -8,7 +8,7 @@ void CreateLog(const char* text_log, TypeLog type_log) {
     }   
     setvbuf(file_log, (char*)NULL, _IONBF, 0);
 
-    printf("%s %s\n", STR_TYPE_LOG[(int)type_log], text_log);
+    fprintf(stderr,   "%s %s\n", STR_TYPE_LOG[(int)type_log], text_log);
     fprintf(file_log, "%s %s\n", STR_TYPE_LOG[(int)type_log], text_log);
 
     fclose(file_log);

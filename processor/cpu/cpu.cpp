@@ -157,10 +157,10 @@ static void CMD_EX_OUT(CPU* cpu) {
     ++cpu->ip;
     int top_val = StackTop(&(cpu->stack));
     if (top_val / (float)PRECISION == top_val / PRECISION) {
-        printf("%d", top_val / PRECISION);
+        printf("\n%d\n", top_val / PRECISION);
     }
     else {
-        printf("%.3f", top_val / (float)PRECISION);
+        printf("\n%.3f\n", top_val / (float)PRECISION);
     }
 }
 

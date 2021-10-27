@@ -124,6 +124,7 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
     char  reg[2]        = { 0 };
     char  arg_label[MAX_LABEL_LENGTH] = { 0 };
     int   pos           = 0;
+
     if (num_args > 0) {
         if (sscanf(full_cmd + symb_from_start_cmd, " [%1[abcd]x+%d]", reg, &arg_const) == 2 ||
             sscanf(full_cmd + symb_from_start_cmd, " [%d+%1[abcd]x]", &arg_const, reg) == 2) {
@@ -136,7 +137,7 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
                 is_reg = true;                                                                                                                                                
         }
         else if (sscanf(full_cmd + symb_from_start_cmd, " [%f]", &arg_const)     == 1 &&
-                     sscanf(full_cmd + symb_from_start_cmd, " [%d]", &tmp_arg_const) == 1 && arg_const == tmp_arg_const) {
+                 sscanf(full_cmd + symb_from_start_cmd, " [%d]", &tmp_arg_const) == 1 && arg_const == tmp_arg_const) {
                                                                                                                                                                               
                 arg_const = tmp_arg_const;                                                                                                                                    
                 cmd_int = num_cmd + RAM_ARG_CMD + CONST_ARG_CMD;                                                                                
@@ -201,10 +202,10 @@ bool ParseCommand (int num_cmd, char* commands_arr, size_t* ip, char* full_cmd, 
     return is_was_hlt;
 }                                                                                                                                                                
       
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required)         \
-    else if (strcmp(cmd, #cmd_in) == 0) {                            \
+#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required)                          \
+    else if (strcmp(cmd, #cmd_in) == 0) {                                             \
         is_was_hlt |= ParseCommand((int)ASSEMBLER_COMMANDS::CMD_##cmd_in, commands_arr, &ip, programm_code_text->strings_text[cur_line].str, cmd, num_args, required, is_leftside_arg,   \
-                     symb_to_end_cmd, count_labels, labels_arr, step);                                                               \
+                                    symb_to_end_cmd, count_labels, labels_arr, step);  \
     }   
 
 static void ChangeWordsToCodes(TextStruct* programm_code_text, const char* filename_assembler_text, size_t* count_labels, LABEL_* labels_arr, int step) {
@@ -288,7 +289,7 @@ static void WriteAssemblerToFile(char* code_arr, size_t size, const char* filena
     HEADER_ASM_FILE header = {};
     HEADER_INIT(header, size);
 
-    fwrite(&header, sizeof(header), 1, file_assembler_text);
+    fwrite(&header,  sizeof(header), 1, file_assembler_text);
 
     fwrite(code_arr, sizeof(char), size, file_assembler_text);
 
