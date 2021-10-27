@@ -21,8 +21,9 @@ void ExecuteCPU(const char* filename_assembler) {
         }
         #include "../commands/def/cmd_def.h"
         else {
-            CreateLog("CPU dead", TypeLog::ERROR_);
-            KillCPU(&cpu);
+            DrawInTerminal(LINUX_CODE(&(cpu.window), ) GET_RAM_CPU.ram, GET_RAM_CPU.size_ram, GET_RAM_CPU.size_ram + GET_RAM_CPU.size_video_ram);
+           // CreateLog("CPU dead", TypeLog::ERROR_);
+            //KillCPU(&cpu);
         }
     }
 }

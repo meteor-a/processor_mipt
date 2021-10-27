@@ -53,24 +53,24 @@
     MOVE_PROGRAM_POINTER;      \
     int reg_val   = 0;         \
     int arg_const = 0;         \
-                                                     \
+                                                                 \
     if (is_reg) {                                                \
         reg_val = cpu.reg.registr[cpu.code[cpu.ip] - 'a'];       \
         MOVE_PROGRAM_POINTER;                                    \
     }                                                            \
-    if (is_const) {                                  \
-        arg_const = IP_TO_JUMP;                      \
+    if (is_const) {                                              \
+        arg_const = IP_TO_JUMP / PRECISION;                      \
         MOVE_PROGRAM_POINTER_INT;                    \
     }                                                \
     if (is_mem) {                                    \
-        STACK_PUSH(GET_RAM_CPU.ram[is_reg ? (is_const ? (reg_val + arg_const) : reg_val) : arg_const]); \
-    }                                                                                                   \
-    else {                                                                                              \
-        STACK_PUSH(is_reg ? (is_const ? (reg_val + arg_const) : reg_val) : arg_const);                  \
+        STACK_PUSH((GET_RAM_CPU.ram[is_reg ? (is_const ? (reg_val + arg_const) : reg_val) : arg_const]) * PRECISION); \
+    }                                                                                                                 \
+    else {                                                                                                            \
+        STACK_PUSH((is_reg ? (is_const ? (reg_val + arg_const) : reg_val) : arg_const) * PRECISION);                  \
     }
 
 #define CPU_POP               \
-    int pop_val = POP_VALUE;  \
+    int pop_val = POP_VALUE / PRECISION;  \
                               \
     IS_CONST_BYTE_FROM;       \
     IS_REG_BYTE_FROM;         \
@@ -79,15 +79,15 @@
     MOVE_PROGRAM_POINTER      \
                               \
     if (is_mem) {             \
-        if (is_reg && is_const) {                                             \
-            GET_RAM_CPU.ram[IP_TO_JUMP_REG] + IP_TO_JUMP] = pop_val;          \
-            MOVE_PROGRAM_POINTER_INT;                                         \
-        }                                                                     \
+        if (is_reg && is_const) {                                                  \
+            GET_RAM_CPU.ram[IP_TO_JUMP_REG] + (IP_TO_JUMP / PRECISION)] = pop_val;          \
+            MOVE_PROGRAM_POINTER_INT;                                             \
+        }                                                                         \
         else if (is_reg) {                                                    \
-            GET_RAM_CPU.ram[IP_TO_JUMP_REG]] = pop_val;                       \
+            GET_RAM_CPU.ram[IP_TO_JUMP_REG]] = pop_val;           \
         }                                                                     \
         else if (is_const) {                                                  \
-            GET_RAM_CPU.ram[IP_TO_JUMP] = pop_val;                            \
+            GET_RAM_CPU.ram[(IP_TO_JUMP / PRECISION)] = pop_val;                            \
             MOVE_PROGRAM_POINTER_INT;                                         \
         }                                                                     \
     }                                                                         \

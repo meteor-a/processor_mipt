@@ -88,7 +88,6 @@ static void SeparateTextByEndOfLine(TextStruct* text) {
                 --text->num_strings;
                 continue;
             }
-            //EraseSpaceStartEndStr(&(text->strings_text[n_line]));
 
             text->strings_text[n_line].lenght = strlen(text->strings_text[n_line].str);
 

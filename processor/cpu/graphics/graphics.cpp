@@ -29,6 +29,8 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
         printf("-");
     }
     printf("|");
+
+    printf("\n");
 }
 
 #elif __linux__
