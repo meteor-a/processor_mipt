@@ -6,14 +6,12 @@
 
 /*--------------------------------------------------------------------------*/
 
+#include "../../constants/constants.h"
 #ifdef __linux__
     #include <SFML/Graphics.hpp>
 #endif
 
 /*--------------------------------------------------------------------------*/
-
-static const int HEIGHT_WINDOW = 60;
-static const int WIDTH_WINDOW  = 60;
 
 #ifdef __linux__
     void DrawInTerminal(sf::RenderWindow* window, int* memory, size_t start_ind_video_mem, size_t size_mem);

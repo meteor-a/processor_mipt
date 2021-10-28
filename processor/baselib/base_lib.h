@@ -1,30 +1,37 @@
-#pragma once
+#ifndef BASE_LIB_H__
+#define BASE_LIB_H__
+
+/*--------------------------------------------------------------------------*/
 
 #include <stdio.h>
 #include <assert.h>
 
 #ifdef __linux__ 
-#include <unistd.h>
-#include <fcntl.h>
-#include <cstddef>
+    #include <unistd.h>
+    #include <fcntl.h>
+    #include <cstddef>
 #elif _WIN32
-#include <windows.h>
-#include <sys\stat.h>
+    #include <windows.h>
+    #include <sys\stat.h>
 #endif
 
+/*--------------------------------------------------------------------------*/
+
 #ifdef __linux__
+
 #define _IsBadReadPtr(pointer) _IsBadReadPtr__(pointer, sizeof(pointer))    
 
 static bool _IsBadReadPtr__(void* pointer, size_t size) {
-  int nullfd = open("/dev/random", O_WRONLY);
+    int nullfd = open("/dev/random", O_WRONLY);
 
-  if (write(nullfd, pointer, size) < 0) {
-    return true;
-  }
-  close(nullfd);
+    if (write(nullfd, pointer, size) < 0) {
+        return true;
+    }
+    close(nullfd);
 
-  return false;
+    return false;
 }
+
 #elif _WIN32
 #define _IsBadReadPtr(pointer) _IsBadReadPtr__(pointer)
 
@@ -44,9 +51,13 @@ static bool _IsBadReadPtr__(void* p) {
 
     return true;
 }
+
 #endif
 
+/*--------------------------------------------------------------------------*/
+
 #ifdef _WIN32
+
 static int file_cmp(const char* file1, const char* file2) {
     struct _stat st1;
     struct _stat st2;
@@ -66,17 +77,26 @@ static int file_cmp(const char* file1, const char* file2) {
         }
     }
 }
+
 #endif
 
+
+/*--------------------------------------------------------------------------*/
+
+
 static long long getFileSize(FILE* file/*!< - Pointer to opened file*/) {
-  assert(file != nullptr);
-  if (file == nullptr) {
-    return -1;
-  }
+    assert(file != nullptr);
+    if (file == nullptr) {
+        return -1;
+    }
 
-  fseek(file, 0L, SEEK_END);
-  long long sz = ftell(file);
-  rewind(file);
+    fseek(file, 0L, SEEK_END);
+    long long sz = ftell(file);
+    rewind(file);
 
-  return sz;
+    return sz;
 }
+
+#endif
+
+#define LOCATION__(code) __FILE__, __LINE__

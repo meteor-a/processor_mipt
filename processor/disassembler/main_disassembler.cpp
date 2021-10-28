@@ -1,6 +1,5 @@
 /*
 #include "disassembler.h"
-#include "../constant/constant_filename.h"
 
 int main(int argc, char* argv[]) {
     const char* filename_disasm = DEFAULT_DISASSEMBLER_FILE_NAME;
@@ -16,4 +15,4 @@ int main(int argc, char* argv[]) {
 
     CreateTextFromAssembler(filename_asm, filename_disasm);
 }
-  */               
+     */

@@ -1,15 +1,14 @@
 #include "cpu.h"
 
-static void CPUConstructor(CPU* cpu);
-static void KillCPU(CPU* cpu);
-static void DumpCPU(CPU* cpu);
+int CPUConstructor(CPU* cpu);
+int KillCPU(const char* text_err, TypeLog type_log, const char* filename, size_t num_str);
+                                                                                        
+#define DEF_CMD(cmd_in, num_args, is_leftside_arg, command_action)                                        \
+    else if (((int)cpu.code[cpu.ip] & MAKE_NULL_FLAGS_BYTE) == (int)PROCESSOR_COMMANDS::CMD_##cmd_in) {   \
+        command_action                                                                                    \
+    }
 
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, required, command_action)              \
-    else if (((int)cpu.code[cpu.ip] & 31) == (int)ASSEMBLER_COMMANDS::CMD_##cmd_in) {     \
-            command_action                                                                \
-    }  
-
-void ExecuteCPU(const char* filename_assembler) {
+int ExecuteCPU(const char* filename_assembler) {
     CPU cpu = {};
     CPUConstructor(&cpu);
 
@@ -19,29 +18,52 @@ void ExecuteCPU(const char* filename_assembler) {
         if (1 == 0) {
 
         }
-        #include "../commands/def/cmd_def.h"
+
+        #include "../constants/cmd_def.h"
+
         else {
-            DrawInTerminal(LINUX_CODE(&(cpu.window), ) GET_RAM_CPU.ram, GET_RAM_CPU.size_ram, GET_RAM_CPU.size_ram + GET_RAM_CPU.size_video_ram);
-           // CreateLog("CPU dead", TypeLog::ERROR_);
-            //KillCPU(&cpu);
+            KillCPU("Failed: Cant recognize command", TypeLog::ERROR_, LOCATION__(cpu));
         }
     }
+
+    return 0;
 }
 
 #undef DEF_CMD
 
-size_t InitAsmCode(CPU* cpu, const char* filename_assembler) {
-    FILE* file_assembler = fopen(filename_assembler, "rb");
+int CPUConstructor(CPU* cpu) {
+    StackConstructor((cpu->stack));
+    StackConstructor((cpu->stack_call));
+    cpu->code = nullptr;
+    cpu->ip = 0;
+    cpu->reg = {};
+    cpu->ram_memory = {};
 
+    return 0;
+}
+
+size_t InitAsmCode(CPU* cpu, const char* filename_assembler) {
+    if (_IsBadReadPtr(cpu)) {
+        KillCPU("Failed: Bad ptr", TypeLog::ERROR_, LOCATION__(cpu));
+    }
+
+    FILE* file_assembler = fopen(filename_assembler, "rb");
+    if (_IsBadReadPtr(file_assembler)) {
+        KillCPU("Failed: Cant open file to write disassembler code", TypeLog::ERROR_, LOCATION__(file_assembler));
+    }
+    
     HEADER_ASM_FILE header = {};
     fread(&header, sizeof(HEADER_ASM_FILE), 1, file_assembler);
     fseek(file_assembler, sizeof(HEADER_ASM_FILE), SEEK_SET);
 
     if (header.ver_asm != VER_ASSEMBLER_CMD) {
-        CreateLog("Version of header assembler file do not equal current version. Please re-create assembler file.", TypeLog::WARNING_);
+        KillCPU("Version of header assembler file do not equal current version. Please re-create assembler file.", TypeLog::WARNING_, LOCATION__(header));
     }
 
     cpu->code = (char*)calloc(header.size_in_byte, sizeof(char));
+    if (_IsBadReadPtr(cpu->code)) {
+        KillCPU("Failed: Cant calloc memory", TypeLog::ERROR_, LOCATION__(cpu->code));
+    }
     size_t num_read_symb = fread(cpu->code, sizeof(char), header.size_in_byte, file_assembler);
 
     fclose(file_assembler);
@@ -49,23 +71,7 @@ size_t InitAsmCode(CPU* cpu, const char* filename_assembler) {
     return header.size_in_byte;
 }
 
-static void CPUConstructor(CPU* cpu) {
-    StackConstructor((cpu->stack));
-    StackConstructor((cpu->stack_call));
-    cpu->code = nullptr;
-    cpu->ip = 0;
-    cpu->reg = {};
-    cpu->ram_memory = {};
-}
-
-void KillCPU(CPU* cpu) {
-    free(cpu->code);
-    StackDestructor(&(cpu->stack));
-    StackDestructor(&(cpu->stack_call));
-    printf("\nCPU dead\n");
-    exit(-1);
-}
-
-void DumpCPU(CPU* cpu) {
-    
+int KillCPU(const char* text_err, TypeLog type_log, const char* filename, size_t num_str) {
+    CreateLog(text_err, type_log, filename, num_str);
+    return -1;
 }

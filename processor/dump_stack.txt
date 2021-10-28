@@ -1,17 +1,17 @@
 
 ---------------------------------
 
-Time of last build: Oct 25 2021  00:18:11
+Time of last build: Oct 28 2021  19:53:28
 
-Error: Try to top on empty stack
+Error: Try to pop on empty stack
 	capacity: 16
 	size:     0
 
-	data[0x729650] {
-		 [0] = -666
-		 [1] = -666
-		 [2] = -666
-		 [3] = -666
+	data[0x999670] {
+		 [0] = 10031696
+		 [1] = 0
+		 [2] = 10027344
+		 [3] = 0
 		 [4] = 0
 		 [5] = 0
 		 [6] = 0

@@ -1,15 +1,15 @@
-#pragma once
+#ifndef DISASSEMBLER_H__
+#define DISASSEMBLER_H__
 
-/*--------------------------------------------------------------------------*/
+/*----------------------------------------*/
 
-#include <malloc.h>
-
-/*--------------------------------------------------------------------------*/
-
-#include "../commands/assembler_commands.h"
-#include "../base_lib/default_lib.h"
+#include "../baselib/base_lib.h"
+#include "../constants/constants.h"
+#include "../constants/commands.h"
 #include "../logger/logger.h"
 
-/*--------------------------------------------------------------------------*/
+/*----------------------------------------*/
 
-void CreateTextFromAssembler(const char* filename_assembler, const char* filename_output);
+int CreateTextFromAssembler(const char* filename_assembler, const char* filename_output);
+
+#endif

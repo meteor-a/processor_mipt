@@ -157,7 +157,6 @@
     <ClInclude Include="base_lib\default_lib.h" />
     <ClInclude Include="commands\assembler_commands.h" />
     <ClInclude Include="commands\def\cmd_def.h" />
-    <ClInclude Include="constant\constant_filename.h" />
     <ClInclude Include="cpu\cpu.h" />
     <ClInclude Include="cpu\graphics\graphics.h" />
     <ClInclude Include="cpu\stack_lib\stack_lib.h" />
