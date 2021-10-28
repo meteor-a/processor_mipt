@@ -3,6 +3,10 @@
 
 /*----------------------------------------*/
 
+#include <malloc.h>
+
+/*----------------------------------------*/
+
 #include "../baselib/base_lib.h"
 #include "../constants/constants.h"
 #include "../constants/commands.h"

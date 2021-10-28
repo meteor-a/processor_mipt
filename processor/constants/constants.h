@@ -39,8 +39,8 @@ const int MAKE_NULL_FLAGS_BYTE = 31;
 
 /*------CPU------*/
 
-const int HEIGHT_WINDOW = 60;
-const int WIDTH_WINDOW  = 60;
+const int HEIGHT_WINDOW = 300;
+const int WIDTH_WINDOW  = 300;
 
 const int RAM_BYTE = 1024;
 const int RAM_VIDEO_BYTE = HEIGHT_WINDOW * WIDTH_WINDOW;
