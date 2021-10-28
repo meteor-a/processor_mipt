@@ -36,7 +36,7 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
 #elif __linux__
 
 void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
-    sf::RenderWindow* window(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
+    sf::RenderWindow window(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
     
     sf::Texture bufferTexture;
     sf::Sprite  buffferSprite;
@@ -60,15 +60,19 @@ void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem) {
 
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) window.close();
+			if (event.type == sf::Event::Closed) { 
+                window.close();
+                return;
+            }
 			if (event.type == sf::Event::KeyPressed) {
 				window.close();
+                return;
 			}
 		}
 
-        window->clear();    
-        window->draw(buffferSprite);
-        window->display();
+        window.clear();    
+        window.draw(buffferSprite);
+        window.display();
     }
 
     return;
