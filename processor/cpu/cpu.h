@@ -39,7 +39,6 @@ struct CPU {
     RAM      ram_memory = {};
     size_t   ip = 0;
     char* code = {};
-    LINUX_CODE(sf::RenderWindow window;)
     Stack_t stack = {};
     Stack_t stack_call = {};
 };
