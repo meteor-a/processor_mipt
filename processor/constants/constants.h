@@ -3,6 +3,9 @@
 
 /*------ASSEMBLER------*/
 
+typedef long long CPU_ARG_INT_T;
+typedef double    CPU_ARG_REAL_T;
+
 static const char* DEFAULT_FILENAME_CODE       = "code.txt";
 static const char* DEFAULT_ASSEMBLER_FILE_NAME = "assembler.txt";
 

@@ -14,8 +14,8 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef __linux__
-    void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem);
+    void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t size_mem);
 #elif _WIN32
-    void DrawInTerminal(int* memory, size_t start_ind_video_mem, size_t size_mem);
+    void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t size_mem);
 #endif
 

@@ -25,13 +25,13 @@
 /*--------------------------------------------------------------------------*/
 
 struct REGISTER {
-    int registr[4] = {};
+    CPU_ARG_INT_T registr[4] = {};
 };
 
 struct RAM {
     size_t size_ram = RAM_BYTE;
     size_t size_video_ram = RAM_VIDEO_BYTE;
-    int ram[RAM_BYTE + RAM_VIDEO_BYTE] = {};
+    CPU_ARG_INT_T* ram = nullptr;
 };
 
 struct CPU {

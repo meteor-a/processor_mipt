@@ -18,6 +18,40 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="assembler.txt" />
+    <Text Include="code.txt" />
+    <Text Include="disassembler.txt" />
+    <Text Include="dump_stack.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="assembler\assembler.cpp" />
+    <ClCompile Include="assembler\main_assembler.cpp" />
+    <ClCompile Include="cpu\cpu.cpp" />
+    <ClCompile Include="cpu\graphics\graphics.cpp" />
+    <ClCompile Include="cpu\main_cpu.cpp" />
+    <ClCompile Include="cpu\stack_lib\stack_lib.cpp" />
+    <ClCompile Include="disassembler\disassembler.cpp" />
+    <ClCompile Include="disassembler\main_disassembler.cpp" />
+    <ClCompile Include="logger\logger.cpp" />
+    <ClCompile Include="text_lib\text_lib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="assembler\assembler.h" />
+    <ClInclude Include="baselib\base_lib.h" />
+    <ClInclude Include="constants\cmd_def.h" />
+    <ClInclude Include="constants\commands.h" />
+    <ClInclude Include="constants\constants.h" />
+    <ClInclude Include="cpu\cpu.h" />
+    <ClInclude Include="cpu\graphics\graphics.h" />
+    <ClInclude Include="cpu\stack_lib\stack_lib.h" />
+    <ClInclude Include="disassembler\disassembler.h" />
+    <ClInclude Include="logger\logger.h" />
+    <ClInclude Include="text_lib\text_lib.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,39 +172,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="assembler\assembler.cpp" />
-    <ClCompile Include="assembler\main_assembler.cpp" />
-    <ClCompile Include="assembler\text_lib\text_lib.cpp" />
-    <ClCompile Include="cpu\cpu.cpp" />
-    <ClCompile Include="cpu\graphics\graphics.cpp" />
-    <ClCompile Include="cpu\main_cpu.cpp" />
-    <ClCompile Include="cpu\stack_lib\stack_lib.cpp" />
-    <ClCompile Include="disassembler\disassembler.cpp" />
-    <ClCompile Include="disassembler\main_disassembler.cpp" />
-    <ClCompile Include="logger\logger.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="assembler\asm_const.h" />
-    <ClInclude Include="assembler\assembler.h" />
-    <ClInclude Include="assembler\text_lib\text_lib.h" />
-    <ClInclude Include="base_lib\default_lib.h" />
-    <ClInclude Include="commands\assembler_commands.h" />
-    <ClInclude Include="commands\def\cmd_def.h" />
-    <ClInclude Include="cpu\cpu.h" />
-    <ClInclude Include="cpu\graphics\graphics.h" />
-    <ClInclude Include="cpu\stack_lib\stack_lib.h" />
-    <ClInclude Include="disassembler\disassembler.h" />
-    <ClInclude Include="logger\logger.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="assembler.txt" />
-    <Text Include="code.txt" />
-    <Text Include="disassembler.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="makefile" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

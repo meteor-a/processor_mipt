@@ -15,16 +15,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="assembler\assembler.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="assembler\main_assembler.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="assembler\text_lib\text_lib.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="logger\logger.cpp">
+    <Text Include="assembler.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="code.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="disassembler.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="dump_stack.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="text_lib\text_lib.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="disassembler\disassembler.cpp">
@@ -33,13 +43,22 @@
     <ClCompile Include="disassembler\main_disassembler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="logger\logger.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="assembler\assembler.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="assembler\main_assembler.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu\stack_lib\stack_lib.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="cpu\cpu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpu\main_cpu.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="cpu\stack_lib\stack_lib.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="cpu\graphics\graphics.cpp">
@@ -47,54 +66,38 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="assembler\asm_const.h">
+    <ClInclude Include="text_lib\text_lib.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="assembler\assembler.h">
+    <ClInclude Include="constants\cmd_def.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="assembler\text_lib\text_lib.h">
+    <ClInclude Include="constants\commands.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="logger\logger.h">
+    <ClInclude Include="constants\constants.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="disassembler\disassembler.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="cpu\cpu.h">
+    <ClInclude Include="logger\logger.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="assembler\assembler.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="baselib\base_lib.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="cpu\stack_lib\stack_lib.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="cpu\cpu.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="cpu\graphics\graphics.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="base_lib\default_lib.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="commands\assembler_commands.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="commands\def\cmd_def.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="code.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="disassembler.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="assembler.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="makefile">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
   </ItemGroup>
 </Project>

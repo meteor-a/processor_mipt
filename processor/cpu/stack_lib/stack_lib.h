@@ -74,7 +74,7 @@ struct LOCATION {
 };
 #endif
 
-typedef int                StackElem_t;
+typedef long long          StackElem_t;
 typedef unsigned long long StackCanaryElem_t;
 
 #define DEFAULT_CAPACITY            16
@@ -181,10 +181,3 @@ long long HashFunc        (void* start_hash, void* end_hash);
 void        StackAbort        (Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location_call));
 const char* StackGetTextError (TypeError err);
 void        StackDump         (Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location_call));
-
-/*-------------------------------------------------------------------------*/
-
-void StackUnitTest();
-void StackConstructorAndDestructorTest();
-void StackPushTest();
-void StackPopTest();

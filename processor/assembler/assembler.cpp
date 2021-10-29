@@ -152,16 +152,17 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
     bool  is_reg   = false;
     bool  is_mem   = false;
 
-    char  arg_label[MAX_LABEL_LENGTH] = { 0 };
-    int   tmp_const  = 0;
-    char  reg[2]     = { 0 };
-    float arg_const  = 0;
-    int   pos        = 0;
-    int   count_symb_to_end = 0;
-    int   length_arg = strlen(args);
+    char arg_label[MAX_LABEL_LENGTH] = { 0 };
+    char reg[2]            = { 0 };
+    int  pos               = 0;
+    int  count_symb_to_end = 0;
+    int  length_arg        = strlen(args);
 
-    if ((sscanf(args, "[%1[abcd]x+%d]%n", &reg, &arg_const, &count_symb_to_end) == 2 ||
-         sscanf(args, "[%d+%1[abcd]x]%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
+    CPU_ARG_INT_T  tmp_const  = 0;
+    CPU_ARG_REAL_T arg_const  = 0;
+
+    if ((sscanf(args, "[%1[abcd]x+%lf]%n", &reg, &arg_const, &count_symb_to_end) == 2 ||
+         sscanf(args, "[%lf+%1[abcd]x]%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
          count_symb_to_end == length_arg) {
 
         is_const = true;
@@ -174,15 +175,15 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
         is_reg = true;
         is_mem = true;
     }
-    else if (sscanf(args, " [%f]%n", &arg_const, &count_symb_to_end) == 1 &&
+    else if (sscanf(args, " [%lf]%n", &arg_const, &count_symb_to_end) == 1 &&
              sscanf(args, " [%d]%n", &tmp_const, &count_symb_to_end) == 1 &&
              arg_const == tmp_const && count_symb_to_end == length_arg) {
 
         is_const = true;
         is_mem   = true;
     }
-    else if ((sscanf(args, " %1[abcd]x+%f%n", &reg, &arg_const, &count_symb_to_end) == 2  ||
-              sscanf(args, " %f+%1[abcd]x%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
+    else if ((sscanf(args, " %1[abcd]x+%lf%n", &reg, &arg_const, &count_symb_to_end) == 2  ||
+              sscanf(args, " %lf+%1[abcd]x%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
               !is_leftside_arg && count_symb_to_end == length_arg) {
 
         is_const = true;
@@ -193,7 +194,7 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
 
         is_reg = true;
     }
-    else if (sscanf(args, " %f%n", &arg_const, &count_symb_to_end) == 1 && !is_leftside_arg && count_symb_to_end == length_arg) {
+    else if (sscanf(args, " %lf%n", &arg_const, &count_symb_to_end) == 1 && !is_leftside_arg && count_symb_to_end == length_arg) {
         is_const = true;
     }
     else if (sscanf(args, " %s", arg_label) == 1 &&
@@ -202,16 +203,16 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
         pos = FindPosLabel(arg_label, *count_labels, labels_arr);
         if (pos != -1) {
             (*pointer_to_command) += (char)(CONST_ARG_CMD);
-            *((int*)(commands_arr + *ip)) = pos;
-            (*ip) += sizeof(arg_const);
+            *((CPU_ARG_INT_T*)(commands_arr + *ip)) = pos;
+            (*ip) += sizeof(CPU_ARG_INT_T);
         }
         else if (step == 1) {
             strcpy(labels_arr[*count_labels].name_label, arg_label);
             labels_arr[*count_labels].pos = -1;
             ++(*count_labels);
             (*pointer_to_command) += (char)(CONST_ARG_CMD);
-            *((int*)(commands_arr + *ip)) = 0;
-            (*ip) += sizeof(arg_const);
+            *((CPU_ARG_INT_T*)(commands_arr + *ip)) = 0;
+            (*ip) += sizeof(CPU_ARG_INT_T);
         }
         else {
             KillAsm("Failed: Cannot find label", TypeLog::ERROR_, LOCATION__(programm_code_text));
@@ -231,8 +232,8 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
         commands_arr[(*ip)++] = reg[0];
     }
     if (is_const) {
-        *((int*)(commands_arr + (*ip))) = (int)(arg_const * PRECISION);
-        (*ip) += sizeof(arg_const);
+        *((CPU_ARG_INT_T*)(commands_arr + (*ip))) = (CPU_ARG_INT_T)(arg_const * PRECISION);
+        (*ip) += sizeof(CPU_ARG_INT_T);
     }
 
     return 0;

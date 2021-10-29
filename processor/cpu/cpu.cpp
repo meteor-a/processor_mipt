@@ -1,6 +1,7 @@
 #include "cpu.h"
 
 int CPUConstructor(CPU* cpu);
+int CPUDestructor (CPU* cpu);
 int KillCPU(const char* text_err, TypeLog type_log, const char* filename, size_t num_str);
                                                                                         
 #define DEF_CMD(cmd_in, num_args, is_leftside_arg, command_action)                                        \
@@ -23,6 +24,7 @@ int ExecuteCPU(const char* filename_assembler) {
 
         else {
             KillCPU("Failed: Cant recognize command", TypeLog::ERROR_, LOCATION__(cpu));
+            CPUDestructor(&cpu);
         }
     }
 
@@ -37,7 +39,19 @@ int CPUConstructor(CPU* cpu) {
     cpu->code = nullptr;
     cpu->ip = 0;
     cpu->reg = {};
-    cpu->ram_memory = {};
+    cpu->ram_memory.ram = (CPU_ARG_INT_T*)calloc(cpu->ram_memory.size_ram + cpu->ram_memory.size_video_ram, sizeof(CPU_ARG_INT_T));
+    if (_IsBadReadPtr(cpu->ram_memory.ram)) {
+        KillCPU("Failed: Cant get memory for RAM", TypeLog::ERROR_, LOCATION__(cpu->ram_memory.ram));
+    }
+
+    return 0;
+}
+
+int CPUDestructor(CPU* cpu) {
+    StackDestructor(&(cpu->stack));
+    StackDestructor(&(cpu->stack_call));
+    free(cpu->ram_memory.ram);
+    free(cpu->code);
 
     return 0;
 }

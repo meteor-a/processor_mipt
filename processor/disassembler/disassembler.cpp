@@ -44,25 +44,25 @@ int WriteArgument(char* buffer, size_t* count_byte, FILE* file_disassembler) {
 
     ++(*count_byte);
 
-    char  reg[2]    = { 0 };
-    float arg_const = 0;
+    char           reg[2]    = { 0 };
+    CPU_ARG_REAL_T arg_const = 0;
 
     if (is_reg) reg[0] = buffer[(*count_byte)++];
     if (is_const) {
-        arg_const = (*((int*)(buffer + (*count_byte)))) / (float)PRECISION;
-        (*count_byte) += sizeof(arg_const);
+        arg_const = (*((CPU_ARG_INT_T*)(buffer + (*count_byte)))) / (CPU_ARG_REAL_T)PRECISION;
+        (*count_byte) += sizeof(CPU_ARG_INT_T);
     }
 
     if (is_mem) {
         fprintf(file_disassembler, " [");
         if (is_reg && is_const) {
-            fprintf(file_disassembler, "%cx+%d", reg[0], (int)arg_const);
+            fprintf(file_disassembler, "%cx+%d", reg[0], (CPU_ARG_INT_T)arg_const);
         }
         else if (is_reg) {
             fprintf(file_disassembler, "%cx", reg[0]);
         }
         else if (is_const) {
-            fprintf(file_disassembler, "%d", (int)arg_const);
+            fprintf(file_disassembler, "%d", (CPU_ARG_INT_T)arg_const);
         }
         fprintf(file_disassembler, "]");
     }
