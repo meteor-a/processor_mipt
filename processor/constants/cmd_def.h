@@ -198,8 +198,7 @@
 
 #define CPU_GRAPH                                                       \
     MOVE_PROGRAM_POINTER;                                               \
-    DrawInTerminal(LINUX_CODE(&(cpu.window), )                          \
-                   GET_RAM_CPU.ram,                                     \
+    DrawInTerminal(GET_RAM_CPU.ram,                                     \
                    GET_RAM_CPU.size_ram,                                \
                    GET_RAM_CPU.size_ram + GET_RAM_CPU.size_video_ram);
 
