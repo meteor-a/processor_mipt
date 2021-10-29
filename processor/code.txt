@@ -1,91 +1,25 @@
-IN ax ;a - coef of equation
-IN bx ;b - coef of equation
-IN cx ;c - coef of equation
-CALL SolveQuadro
+IN ax
+PUSH ax+1
+POP ax
+PUSH 1
+PUSH 1
+POP bx
+POP cx
+CALL Factorial
+PUSH bx
+OUT
 HLT
 
-SolveQuadro:
-    PUSH 0
-	PUSH ax
-	JNE withA
-	PUSH 0
-	PUSH bx
-	JNE withB
-	PUSH 0
-	PUSH cx
-	JNE withC
-	PUSH 8.888 ; infiniti
-	OUT
-	HLT
-
-withA:
-    CALL CalcD
-    PUSH 0
-    PUSH dx
-    JA DISCLessZero
-    CALL CALCXplus
-    CALL CALCXminus
-	HLT
-
-withB:
-	JMP MinusCdivB
-
-withC:
-	PUSH 0
-	OUT
-	HLT
-
-CalcD:
-	PUSH bx
-	PUSH bx
-	MUL
-	PUSH 4
-	PUSH ax
-	PUSH cx
-	MUL
-	MUL
-	SUB
-	POP dx
-	RET
-
-DISCLessZero:
-	PUSH 0
-	OUT
-	HLT
-
-CALCXplus:
-	PUSH -1
-	PUSH bx
-	MUL
-	PUSH dx
-	SQRT
-	ADD
-	PUSH 2
-	PUSH ax
-	MUL
-	DIV
-	OUT
-	RET
-
-CALCXminus:
-	PUSH -1
-	PUSH bx
-	MUL
-	PUSH dx
-	SQRT
-	SUB
-	PUSH 2
-	PUSH ax
-	MUL
-	DIV
-	OUT
-	RET
-
-MinusCdivB:
-	PUSH -1
-	PUSH cx
-	MUL
-	PUSH bx
-	DIV
-	OUT
-	HLT
+Factorial:
+    PUSH bx
+    PUSH cx
+    MUL
+    POP bx
+    PUSH cx+1
+    POP cx
+    PUSH ax
+    PUSH cx
+    JBE Iteration
+        CALL Factorial
+    Iteration:
+        RET
