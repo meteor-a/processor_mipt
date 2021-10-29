@@ -2,20 +2,18 @@ PUSH 0
 POP ax;cur x
 PUSH 0
 POP bx;cur y
-PUSH 16; radious
+PUSH 900; radious
 POP cx
-PUSH 60;max x window
+PUSH 300;max x window
 POP [0]
-PUSH 60;max y window
+PUSH 300;max y window
 POP [1]
-PUSH 15; x centre
+PUSH 150; x centre
 POP [2]
-PUSH 15; y centre
+PUSH 150; y centre
 POP [3]
 CALL PrintCircle
 GRAPH
-YU:
-JMP YU
 HLT
 
 PrintCircle:	

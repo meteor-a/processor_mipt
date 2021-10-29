@@ -70,6 +70,7 @@ void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t si
 			}
 		}
 
+
         window.clear();    
         window.draw(buffferSprite);
         window.display();
