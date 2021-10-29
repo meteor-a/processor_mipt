@@ -1,114 +1,70 @@
-STROUT InputKoefA
-IN ax ;a - coef of equation
-STROUT InputKoefB
-IN bx ;b - coef of equation
-STROUT InputKoefC
-IN cx ;c - coef of equation
-CALL SolveQuadro
+PUSH 0
+POP ax;cur x
+PUSH 0
+POP bx;cur y
+PUSH 900; radious
+POP cx
+PUSH 300;max x window
+POP [0]
+PUSH 300;max y window
+POP [1]
+PUSH 150; x centre
+POP [2]
+PUSH 150; y centre
+POP [3]
+CALL PrintCircle
+GRAPH
 HLT
 
-SolveQuadro:
-    PUSH 0
+PrintCircle:	
+	CALL PereborX
 	PUSH ax
-	JNE withA
-	PUSH 0
-	PUSH bx
-	JNE withB
-	PUSH 0
-	PUSH cx
-	JNE withC
-	STROUT MSolv
-	HLT
-
-withA:
-    CALL CalcD
-    PUSH 0
-    PUSH dx
-    JA DISCLessZero
-	STROUT TwoSolv
-    CALL CALCXplus
-    CALL CALCXminus
-	HLT
-
-withB:
-	JMP MinusCdivB
-
-withC:
-	STROUT ZeroSolv
-	HLT
-
-CalcD:
-	PUSH bx
-	PUSH bx
-	MUL
-	PUSH 4
-	PUSH ax
-	PUSH cx
-	MUL
-	MUL
-	SUB
-	POP dx
-	RET
-
-DISCLessZero:
-	STROUT ZeroSolv
-	HLT
-
-CALCXplus:
-	PUSH -1
-	PUSH bx
-	MUL
-	PUSH dx
-	SQRT
+	PUSH 1
 	ADD
-	PUSH 2
+	POP ax
 	PUSH ax
-	MUL
-	DIV
-	OUT
+	PUSH [0]
+	JBE PrintCircle
+	PUSH bx
+	PUSH 1
+	ADD
+	POP bx
+	PUSH 0
+	POP ax
+	PUSH bx
+	PUSH [1]
+	JBE PrintCircle
 	RET
 
-CALCXminus:
-	PUSH -1
-	PUSH bx
-	MUL
-	PUSH dx
-	SQRT
+PereborX:
+	PUSH ax
+	PUSH [2]
 	SUB
-	PUSH 2
 	PUSH ax
-	MUL
-	DIV
-	OUT
-	RET
-
-MinusCdivB:
-	PUSH -1
-	PUSH cx
+	PUSH [2]
+	SUB
 	MUL
 	PUSH bx
-	DIV
-	STROUT OneSolv
-	OUT
-	HLT
-
-InputKoefA:
-    DB $Input a coefficent: $
-
-InputKoefB:
-    DB $Input b coefficent: $
-
-InputKoefC:
-    DB $Input c coefficent: $
-
-ZeroSolv:
-    DB $Equation has 0 solve$
-
-OneSolv:
-    DB $Equation has 1 solve:$
-
-TwoSolv:
-    DB $Equation has 2 solves:$
-
-MSolv:
-    DB $Equation has inf solves:$
+	PUSH [3]
+	SUB
+	PUSH bx
+	PUSH [3]
+	SUB
+	MUL
+	ADD
+	PUSH cx
+	JBE SetColor
+	RET
+SetColor:
+	PUSH 1024
+	PUSH ax
+	PUSH bx
+	PUSH [0]
+	MUL
+	ADD
+	ADD
+	POP dx
+	PUSH 1
+	POP [dx]
+	RET
+	

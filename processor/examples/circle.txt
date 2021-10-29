@@ -21,7 +21,6 @@ PrintCircle:
 	PUSH ax
 	PUSH 1
 	ADD
-	OUT
 	POP ax
 	PUSH ax
 	PUSH [0]
@@ -64,7 +63,6 @@ SetColor:
 	MUL
 	ADD
 	ADD
-	OUT
 	POP dx
 	PUSH 1
 	POP [dx]
