@@ -1,5 +1,8 @@
+STROUT InputKoefA
 IN ax ;a - coef of equation
+STROUT InputKoefB
 IN bx ;b - coef of equation
+STROUT InputKoefC
 IN cx ;c - coef of equation
 CALL SolveQuadro
 HLT
@@ -14,8 +17,7 @@ SolveQuadro:
 	PUSH 0
 	PUSH cx
 	JNE withC
-	PUSH 8.888 ; infiniti
-	OUT
+	STROUT MSolv
 	HLT
 
 withA:
@@ -23,6 +25,7 @@ withA:
     PUSH 0
     PUSH dx
     JA DISCLessZero
+	STROUT TwoSolv
     CALL CALCXplus
     CALL CALCXminus
 	HLT
@@ -31,8 +34,7 @@ withB:
 	JMP MinusCdivB
 
 withC:
-	PUSH 0
-	OUT
+	STROUT ZeroSolv
 	HLT
 
 CalcD:
@@ -49,8 +51,7 @@ CalcD:
 	RET
 
 DISCLessZero:
-	PUSH 0
-	OUT
+	STROUT ZeroSolv
 	HLT
 
 CALCXplus:
@@ -87,5 +88,27 @@ MinusCdivB:
 	MUL
 	PUSH bx
 	DIV
+	STROUT OneSolv
 	OUT
 	HLT
+
+InputKoefA:
+    DB $Input a coefficent: $
+
+InputKoefB:
+    DB $Input b coefficent: $
+
+InputKoefC:
+    DB $Input c coefficent: $
+
+ZeroSolv:
+    DB $Equation has 0 solve$
+
+OneSolv:
+    DB $Equation has 1 solve:$
+
+TwoSolv:
+    DB $Equation has 2 solves:$
+
+MSolv:
+    DB $Equation has inf solves:$

@@ -11,6 +11,7 @@ static const char* DEFAULT_ASSEMBLER_FILE_NAME = "assembler.txt";
 
 const int MAX_CODE_LENGTH    = 1024;
 const int MAX_COMMAND_LENGTH = 30;
+const int MAX_STRING_LENGTH  = 30;
 const int MAX_LABELS_COUNT   = 100;
 const int MAX_LABEL_LENGTH   = 30;
 

@@ -1,3 +1,4 @@
+STROUT AskNumber
 IN ax
 PUSH ax+1
 POP ax
@@ -7,6 +8,7 @@ POP bx
 POP cx
 CALL Factorial
 PUSH bx
+STROUT Answer
 OUT
 HLT
 
@@ -23,3 +25,9 @@ Factorial:
         CALL Factorial
     Iteration:
         RET
+
+AskNumber:
+    DB $Input number: $
+
+Answer:
+    DB $Factorial is: $

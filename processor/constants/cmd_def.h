@@ -8,7 +8,7 @@
 #define STACK_PUSH_CALL(...) StackPush(&(cpu.stack_call), __VA_ARGS__); 
 #define POP_VAL_STACK_CALL   StackPop(&(cpu.stack_call));
 
-#define GET_CONST_ARG        *((int*)(cpu.code + cpu.ip))
+#define GET_CONST_ARG        *((CPU_ARG_INT_T*)(cpu.code + cpu.ip))
 #define GET_REG_ARG          cpu.reg.registr[cpu.code[cpu.ip++] - 'a'
 
 #define ADRESS               (int)cpu.code[cpu.ip]
@@ -202,6 +202,24 @@
                    GET_RAM_CPU.size_ram,                                \
                    GET_RAM_CPU.size_ram + GET_RAM_CPU.size_video_ram);
 
+#define CPU_STROUT                                                                                 \
+    MOVE_PROGRAM_POINTER;                                                                          \
+    for (size_t cur_symb = GET_CONST_ARG + 2; cpu.code[cur_symb] != '$'; ++cur_symb) {             \
+        printf("%c", cpu.code[cur_symb]);                                                          \
+    }                                                                                              \
+    printf("\n");                                                                                  \
+    MOVE_PROGRAM_POINTER_INT;
+    
+
+#define CPU_DB                                      \
+    MOVE_PROGRAM_POINTER;                           \
+    MOVE_PROGRAM_POINTER;                           \
+    for (; cpu.code[cpu.ip] != '$';) {              \
+        MOVE_PROGRAM_POINTER;                       \
+    }                                               \
+    MOVE_PROGRAM_POINTER;
+    
+
 /*--------------------------------------------------------------------------*/
 
 
@@ -228,3 +246,5 @@ DEF_CMD(AH,    1, false, SPECIAL_AHATINA)
 DEF_CMD(CALL,  1, false, CPU_CALL)
 DEF_CMD(RET,   0, false, CPU_RET)
 DEF_CMD(GRAPH, 0, false, CPU_GRAPH)
+DEF_CMD(STROUT,1, false, CPU_STROUT)
+DEF_CMD(DB,    1, false, CPU_DB)

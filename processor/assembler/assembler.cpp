@@ -153,49 +153,54 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
     bool  is_mem   = false;
 
     char arg_label[MAX_LABEL_LENGTH] = { 0 };
+    char str_arg[MAX_STRING_LENGTH]  = { 0 };
     char reg[2]            = { 0 };
-    int  pos               = 0;
+    CPU_ARG_INT_T  pos     = 0;
     int  count_symb_to_end = 0;
-    int  length_arg        = strlen(args);
 
     CPU_ARG_INT_T  tmp_const  = 0;
     CPU_ARG_REAL_T arg_const  = 0;
 
     if ((sscanf(args, "[%1[abcd]x+%lf]%n", &reg, &arg_const, &count_symb_to_end) == 2 ||
-         sscanf(args, "[%lf+%1[abcd]x]%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
-         count_symb_to_end == length_arg) {
+         sscanf(args, "[%lf+%1[abcd]x]%n", &arg_const, &reg, &count_symb_to_end) == 2)) {
 
         is_const = true;
         is_reg   = true;
         is_mem   = true;
     }
-    else if (sscanf(args, " [%1[abcd]x]%n", &reg, &count_symb_to_end) == 1 &&
-             count_symb_to_end == length_arg) {
+    else if (sscanf(args, " [%1[abcd]x]%n", &reg, &count_symb_to_end) == 1) {
 
         is_reg = true;
         is_mem = true;
     }
     else if (sscanf(args, " [%lf]%n", &arg_const, &count_symb_to_end) == 1 &&
              sscanf(args, " [%d]%n", &tmp_const, &count_symb_to_end) == 1 &&
-             arg_const == tmp_const && count_symb_to_end == length_arg) {
+             arg_const == tmp_const) {
 
         is_const = true;
         is_mem   = true;
     }
     else if ((sscanf(args, " %1[abcd]x+%lf%n", &reg, &arg_const, &count_symb_to_end) == 2  ||
               sscanf(args, " %lf+%1[abcd]x%n", &arg_const, &reg, &count_symb_to_end) == 2) &&
-              !is_leftside_arg && count_symb_to_end == length_arg) {
+              !is_leftside_arg) {
 
         is_const = true;
         is_reg   = true;
     }
-    else if (sscanf(args, " %1[abcd]x%n", &reg, &count_symb_to_end) == 1 &&
-             count_symb_to_end == length_arg) {
+    else if (sscanf(args, " %1[abcd]x%n", &reg, &count_symb_to_end) == 1) {
 
         is_reg = true;
     }
-    else if (sscanf(args, " %lf%n", &arg_const, &count_symb_to_end) == 1 && !is_leftside_arg && count_symb_to_end == length_arg) {
+    else if (sscanf(args, " %lf%n", &arg_const, &count_symb_to_end) == 1 && !is_leftside_arg) {
         is_const = true;
+    } 
+    else if (sscanf(args, "$%[^\n]s$", str_arg) == 1) {
+        commands_arr[(*ip)++] = '$';
+        for (int cur_symb_str = 0; cur_symb_str < strlen(str_arg); ++cur_symb_str, ++(*ip)) {
+            commands_arr[(*ip)] = str_arg[cur_symb_str];
+        }   
+
+        return 0; 
     }
     else if (sscanf(args, " %s", arg_label) == 1 &&
              arg_label[0] != '[' && arg_label[strlen(arg_label) - 1] != ']' && !is_leftside_arg) {
@@ -306,7 +311,7 @@ int ChangeWordsToCodes(TextStruct* programm_code_text, const char* filename_asse
     size_t num_strings_in_code   = programm_code_text->num_strings;
     for (size_t cur_line = 0; cur_line < num_strings_in_code; ++cur_line) {
         int count_read_cmd = sscanf(programm_code_text->strings_text[cur_line].str, "%s%n", cmd, &symb_to_end_cmd);
-        int count_read_arg = sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %s", args);
+        int count_read_arg = sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %[^\n]s", args);
 
         if (1 == 0) {
 
