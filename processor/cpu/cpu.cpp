@@ -4,7 +4,7 @@ int CPUConstructor(CPU* cpu);
 int CPUDestructor (CPU* cpu);
 int KillCPU(const char* text_err, TypeLog type_log, const char* filename, size_t num_str);
                                                                                         
-#define DEF_CMD(cmd_in, num_args, is_leftside_arg, command_action)                                        \
+#define DEF_CMD(cmd_in, num_args, is_leftside_arg, ident_of_type, command_action)                         \
     else if (((int)cpu.code[cpu.ip] & MAKE_NULL_FLAGS_BYTE) == (int)PROCESSOR_COMMANDS::CMD_##cmd_in) {   \
         command_action                                                                                    \
     }

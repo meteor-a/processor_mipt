@@ -1,4 +1,4 @@
-/*
+
 #include "assembler.h"
 
 int main(int argc, char* argv[]) {
@@ -15,4 +15,4 @@ int main(int argc, char* argv[]) {
 
     CreateAssemblerFile(filename_code, filename_asm);
 }
-  */ 
+   

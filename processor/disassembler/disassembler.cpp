@@ -1,10 +1,10 @@
 #include "disassembler.h"
 
-int WriteCommand  (const char* command, char* buffer, size_t* count_byte, int num_args, FILE* file_disassembler);
-int WriteArgument (char* buffer, size_t* count_byte, FILE* file_disassembler);
+int WriteCommand  (const char* command, char* buffer, size_t* count_byte, int num_args, int ident_of_type, FILE* file_disassembler);
+int WriteArgument (char* buffer, size_t* count_byte, int ident_of_type, FILE* file_disassembler);
 int KillDisasm    (const char* text_err, TypeLog type_log, const char* filename, size_t num_str);
 
-int WriteCommand(const char* command, char* buffer, size_t *count_byte, int num_args, FILE* file_disassembler) {
+int WriteCommand(const char* command, char* buffer, size_t *count_byte, int num_args, int ident_of_type, FILE* file_disassembler) {
     if (_IsBadReadPtr(buffer)) {
         KillDisasm("Failed: Bad ptr", TypeLog::ERROR_, LOCATION__(buffer));
     }
@@ -17,7 +17,7 @@ int WriteCommand(const char* command, char* buffer, size_t *count_byte, int num_
 
     fprintf(file_disassembler, command);
     if (num_args > 0) {
-        WriteArgument(buffer, count_byte, file_disassembler);
+        WriteArgument(buffer, count_byte, ident_of_type, file_disassembler);
     }
     else {
         ++(*count_byte);
@@ -27,7 +27,7 @@ int WriteCommand(const char* command, char* buffer, size_t *count_byte, int num_
     return 0;
 }
 
-int WriteArgument(char* buffer, size_t* count_byte, FILE* file_disassembler) {
+int WriteArgument(char* buffer, size_t* count_byte, int ident_of_type, FILE* file_disassembler) {
     if (_IsBadReadPtr(buffer)) {
         KillDisasm("Failed: Bad ptr", TypeLog::ERROR_, LOCATION__(buffer));
     }
@@ -37,53 +37,64 @@ int WriteArgument(char* buffer, size_t* count_byte, FILE* file_disassembler) {
     if (_IsBadReadPtr(file_disassembler)) {
         KillDisasm("Failed: Cant open file to write disassembler code", TypeLog::ERROR_, LOCATION__(file_disassembler));
     } 
+    if (ident_of_type == 0) {
+        bool is_mem = (int)buffer[*count_byte] & RAM_ARG_CMD;
+        bool is_reg = (int)buffer[*count_byte] & REG_ARG_CMD;
+        bool is_const = (int)buffer[*count_byte] & CONST_ARG_CMD;
 
-    bool is_mem   = (int)buffer[*count_byte] & RAM_ARG_CMD;
-    bool is_reg   = (int)buffer[*count_byte] & REG_ARG_CMD;
-    bool is_const = (int)buffer[*count_byte] & CONST_ARG_CMD;
+        ++(*count_byte);
 
-    ++(*count_byte);
+        char           reg[2] = { 0 };
+        CPU_ARG_REAL_T arg_const = 0;
 
-    char           reg[2]    = { 0 };
-    CPU_ARG_REAL_T arg_const = 0;
+        if (is_reg) reg[0] = buffer[(*count_byte)++];
+        if (is_const) {
+            arg_const = (*((CPU_ARG_INT_T*)(buffer + (*count_byte)))) / (CPU_ARG_REAL_T)PRECISION;
+            (*count_byte) += sizeof(CPU_ARG_INT_T);
+        }
 
-    if (is_reg) reg[0] = buffer[(*count_byte)++];
-    if (is_const) {
-        arg_const = (*((CPU_ARG_INT_T*)(buffer + (*count_byte)))) / (CPU_ARG_REAL_T)PRECISION;
-        (*count_byte) += sizeof(CPU_ARG_INT_T);
+        if (is_mem) {
+            fprintf(file_disassembler, " [");
+            if (is_reg && is_const) {
+                fprintf(file_disassembler, "%cx+%d", reg[0], (CPU_ARG_INT_T)arg_const);
+            }
+            else if (is_reg) {
+                fprintf(file_disassembler, "%cx", reg[0]);
+            }
+            else if (is_const) {
+                fprintf(file_disassembler, "%d", (CPU_ARG_INT_T)arg_const);
+            }
+            fprintf(file_disassembler, "]");
+        }
+        else {
+            if (is_reg && is_const) {
+                fprintf(file_disassembler, " %cx+%.3f", reg[0], arg_const);
+            }
+            else if (is_reg) {
+                fprintf(file_disassembler, " %cx", reg[0]);
+            }
+            else if (is_const) {
+                fprintf(file_disassembler, " %.3f", arg_const);
+            }
+        }
     }
-
-    if (is_mem) {
-        fprintf(file_disassembler, " [");
-        if (is_reg && is_const) {
-            fprintf(file_disassembler, "%cx+%d", reg[0], (CPU_ARG_INT_T)arg_const);
+    else if (ident_of_type == 1) {
+        ++(*count_byte);
+        fprintf(file_disassembler, " %c", buffer[(*count_byte)]);
+        ++(*count_byte);
+        for (; buffer[(*count_byte)] != '$'; ++(*count_byte)) {
+            fprintf(file_disassembler, "%c", buffer[(*count_byte)]);
         }
-        else if (is_reg) {
-            fprintf(file_disassembler, "%cx", reg[0]);
-        }
-        else if (is_const) {
-            fprintf(file_disassembler, "%d", (CPU_ARG_INT_T)arg_const);
-        }
-        fprintf(file_disassembler, "]");
-    }
-    else {
-        if (is_reg && is_const) {
-            fprintf(file_disassembler, " %cx+%.3f", reg[0], arg_const);
-        }
-        else if (is_reg) {
-            fprintf(file_disassembler, " %cx", reg[0]);
-        }
-        else if (is_const) {
-            fprintf(file_disassembler, " %.3f", arg_const);
-        }
+        fprintf(file_disassembler, "%c", buffer[(*count_byte)]);
+        ++(*count_byte);
     }
 
     return 0;
 }
 
-#define DEF_CMD(cmd_name, num_args, ...)                                                                        \
-    else if (((int)buffer[count_byte] & MAKE_NULL_FLAGS_BYTE) == (int)PROCESSOR_COMMANDS::CMD_##cmd_name) {    \
-        WriteCommand(#cmd_name, buffer, &count_byte, num_args, file_disassembler);                              \
+#define DEF_CMD(cmd_name, num_args, is_leftside_arg, ident_of_type, ...)                                        \
+    else if (((int)buffer[count_byte] & MAKE_NULL_FLAGS_BYTE) == (int)PROCESSOR_COMMANDS::CMD_##cmd_name) {     \
+        WriteCommand(#cmd_name, buffer, &count_byte, num_args, ident_of_type, file_disassembler);               \
     }
 
 int CreateTextFromAssembler(const char* filename_assembler, const char* filename_output) {
