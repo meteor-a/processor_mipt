@@ -20,7 +20,7 @@ int   KillAsm                 (const char* text_err, TypeLog type_log, const cha
 int CreateAssemblerFile(const char* filename_code, const char* filename_asm) {
     FILE* file_input = fopen(filename_code, "r");
     if (_IsBadReadPtr(file_input)) {
-        KillAsm("Failed while open file", TypeLog::ERROR_, LOCATION__(file_input));
+        KillAsm("Failed Programm: while open file", TypeLog::ERROR_, LOCATION__(file_input));
     }
 
     TextStruct code_programm = {};
@@ -44,7 +44,7 @@ int CreateAssemblerFile(const char* filename_code, const char* filename_asm) {
 
 int InputTextCode(TextStruct* code_programm, FILE* file_input) {
     if (_IsBadReadPtr(code_programm)) {
-        KillAsm("Failed: Bad ptr", TypeLog::ERROR_, LOCATION__(code_programm));
+        KillAsm("Failed Programm: Bad ptr", TypeLog::ERROR_, LOCATION__(code_programm));
     }
     if (_IsBadReadPtr(file_input)) {
         KillAsm("Failed: Bad ptr", TypeLog::ERROR_, LOCATION__(file_input));
@@ -154,9 +154,9 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
 
     char arg_label[MAX_LABEL_LENGTH] = { 0 };
     char str_arg[MAX_STRING_LENGTH]  = { 0 };
-    char reg[2]            = { 0 };
+    char reg               = 0;
     CPU_ARG_INT_T  pos     = 0;
-    int  count_symb_to_end = 0;
+    int  count_symb_to_end = -1;
 
     CPU_ARG_INT_T  tmp_const  = 0;
     CPU_ARG_REAL_T arg_const  = 0;
@@ -174,7 +174,7 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
         is_mem = true;
     }
     else if (sscanf(args, " [%lf]%n", &arg_const, &count_symb_to_end) == 1 &&
-             sscanf(args, " [%d]%n", &tmp_const, &count_symb_to_end) == 1 &&
+             sscanf(args, " [%lld]%n", &tmp_const, &count_symb_to_end) == 1 &&
              arg_const == tmp_const) {
 
         is_const = true;
@@ -196,7 +196,7 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
     } 
     else if (sscanf(args, "$%[^\n]s$", str_arg) == 1) {
         commands_arr[(*ip)++] = '$';
-        for (int cur_symb_str = 0; cur_symb_str < strlen(str_arg); ++cur_symb_str, ++(*ip)) {
+        for (size_t cur_symb_str = 0; cur_symb_str < strlen(str_arg); ++cur_symb_str, ++(*ip)) {
             commands_arr[(*ip)] = str_arg[cur_symb_str];
         }   
 
@@ -234,7 +234,7 @@ int ParseArgument(char* commands_arr, size_t* ip, char* pointer_to_command, char
     if (is_mem)   (*pointer_to_command) += (char)(RAM_ARG_CMD);
 
     if (is_reg) {
-        commands_arr[(*ip)++] = reg[0];
+        commands_arr[(*ip)++] = reg;
     }
     if (is_const) {
         *((CPU_ARG_INT_T*)(commands_arr + (*ip))) = (CPU_ARG_INT_T)(arg_const * PRECISION);
@@ -303,15 +303,15 @@ int ChangeWordsToCodes(TextStruct* programm_code_text, const char* filename_asse
     char    commands_arr[MAX_CODE_LENGTH] = { 0 };
     char    cmd[MAX_COMMAND_LENGTH]       = { 0 };
     char    args[MAX_COMMAND_LENGTH]      = { 0 };
-    size_t  symb_to_end_cmd               = 0;
+    int     symb_to_end_cmd               = -1;
     size_t  ip                            = 0;
     char*   pointer_to_command            = commands_arr;
     bool    is_was_hlt                    = false;
 
     size_t num_strings_in_code   = programm_code_text->num_strings;
     for (size_t cur_line = 0; cur_line < num_strings_in_code; ++cur_line) {
-        int count_read_cmd = sscanf(programm_code_text->strings_text[cur_line].str, "%s%n", cmd, &symb_to_end_cmd);
-        int count_read_arg = sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %[^\n]s", args);
+        sscanf(programm_code_text->strings_text[cur_line].str, "%s%n", cmd, &symb_to_end_cmd);
+        sscanf(programm_code_text->strings_text[cur_line].str + symb_to_end_cmd, " %[^\n]s", args);
 
         if (1 == 0) {
 

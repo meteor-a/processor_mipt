@@ -55,7 +55,7 @@ static bool _IsBadReadPtr__(void* p) {
 #endif
 
 /*--------------------------------------------------------------------------*/
-
+ /*
 #ifdef _WIN32
 
 static int file_cmp(const char* file1, const char* file2) {
@@ -80,7 +80,7 @@ static int file_cmp(const char* file1, const char* file2) {
 
 #endif
 
-
+      */
 /*--------------------------------------------------------------------------*/
 
 

@@ -56,13 +56,13 @@ int WriteArgument(char* buffer, size_t* count_byte, int ident_of_type, FILE* fil
         if (is_mem) {
             fprintf(file_disassembler, " [");
             if (is_reg && is_const) {
-                fprintf(file_disassembler, "%cx+%d", reg[0], (CPU_ARG_INT_T)arg_const);
+                fprintf(file_disassembler, "%cx+%lld", reg[0], (CPU_ARG_INT_T)arg_const);
             }
             else if (is_reg) {
                 fprintf(file_disassembler, "%cx", reg[0]);
             }
             else if (is_const) {
-                fprintf(file_disassembler, "%d", (CPU_ARG_INT_T)arg_const);
+                fprintf(file_disassembler, "%lld", (CPU_ARG_INT_T)arg_const);
             }
             fprintf(file_disassembler, "]");
         }

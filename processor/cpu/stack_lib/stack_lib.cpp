@@ -157,20 +157,26 @@ TypeError StackDataAllocation(Stack_t* stack) {
     }
 
     long long capacity_old         = -1;
+#if STACK_LEVEL_PROTECTION >= STACK_HASH_PROTECTION
     bool is_need_hash_recalculate  = false;
     bool is_need_move_pointer_data = false;
+#endif
 
     if (stack->size == stack->capacity) {   // UP
         ASSERT_OK(stack);
         capacity_old = stack->capacity;
         stack->capacity += STACK_RESIZE_MORE_CONST;
+#if STACK_LEVEL_PROTECTION >= STACK_HASH_PROTECTION
         is_need_hash_recalculate  = true;
         is_need_move_pointer_data = true;
+#endif
     } else if (stack->capacity - STACK_RESIZE_MORE_CONST * 2 >= stack->size) {  // DOWN
         ASSERT_OK(stack);
         stack->capacity -= STACK_RESIZE_MORE_CONST;
+#if STACK_LEVEL_PROTECTION >= STACK_HASH_PROTECTION
         is_need_hash_recalculate  = true;
         is_need_move_pointer_data = true;
+#endif
     } else if (stack->size == 0 && stack->capacity == DEFAULT_CAPACITY && stack->data ==  nullptr) {   // INIZIALIZE
         if (stack == nullptr) {
             StackAbort(stack, TypeError::_ERROR_NULL_OBJ DEBUG_CODE_ADD(, LOCATION{ __FILE__, __func__, __LINE__,
@@ -512,7 +518,6 @@ void StackDump(Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location
 
     printf("\n%s\n", text_err);
 
-    long long cur_time = time(NULL);
     fprintf(dump_file, "\n---------------------------------\n");
   //  fprintf(dump_file, "\nCurrent time: %s\n", ctime(&cur_time));
     fprintf(dump_file, "\nTime of last build: %s  %s\n", __DATE__, __TIME__);
@@ -531,8 +536,8 @@ void StackDump(Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location
             location_call.file_name, location_call.func_name, location_call.num_line);
 #endif
 
-        fprintf(dump_file, "\tcapacity: %d\n", stack->capacity);
-        fprintf(dump_file, "\tsize:     %d\n", stack->size);
+        fprintf(dump_file, "\tcapacity: %lld\n", stack->capacity);
+        fprintf(dump_file, "\tsize:     %lld\n", stack->size);
 
         fprintf(dump_file, "\n");
 
@@ -562,15 +567,15 @@ void StackDump(Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location
 
             fprintf(dump_file, "\n");
 #endif
-            fprintf(dump_file, "\tdata[0x%x] {\n", stack->data);
+            fprintf(dump_file, "\tdata[0x%llx] {\n", (unsigned long long)stack->data);
 
-            for (size_t num_elem = 0; num_elem < stack->capacity; ++num_elem) {
+            for (long long num_elem = 0; num_elem < stack->capacity; ++num_elem) {
                 if (!_IsBadReadPtr(stack->data + num_elem)) {
                     if (num_elem < stack->size) {
-                        fprintf(dump_file, "\t\t* [%d] = %d\n", num_elem, stack->data[num_elem]);
+                        fprintf(dump_file, "\t\t* [%lld] = %lld\n", num_elem, stack->data[num_elem]);
                     }
                     else {
-                        fprintf(dump_file, "\t\t [%d] = %d\n", num_elem, stack->data[num_elem]);
+                        fprintf(dump_file, "\t\t [%lld] = %lld\n", num_elem, stack->data[num_elem]);
                     }
                 }
                 else {
