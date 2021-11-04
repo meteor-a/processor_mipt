@@ -77,7 +77,7 @@ size_t InitAsmCode__(CPU* cpu, const char* filename_assembler, LOCATION_STRUCT_C
 
     FILE* file_assembler = fopen(filename_assembler, "rb");
     if (_IsBadReadPtr(file_assembler)) {
-        CreateLog(NAME_MODULE_CPU, "Failed: Cant open file to write disassembler code", call_place, LOCATION_VAR__(file_assembler));
+        CreateLog(NAME_MODULE_CPU, "Failed: Cant open file to read assembler code", call_place, LOCATION_VAR__(file_assembler));
     }
     
     HEADER_ASM_FILE header = {};

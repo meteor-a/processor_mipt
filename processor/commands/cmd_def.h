@@ -220,12 +220,18 @@
     MOVE_PROGRAM_POINTER;
 
 
+#define CPU_MYAW    \
+    MOVE_PROGRAM_POINTER;\
+    printf("\n");   \
+    printf("%s\n%s\n%s\n%s\n%s", "     .----.   @   @  ", "    / .- -.`.  \v/   ", "   | | '\ \ \_/ )    ",  "  ,-\ `-.' /.'  /    ", " '---`----'----'     ");  \
+    printf("\n");
 /*--------------------------------------------------------------------------*/
 
 
 //DEF_CMD("name_command", num_args, is_lvalue_arg, ident_of_type, command)
 
 DEF_CMD(HLT,    0, false, 0, CPU_HLT)
+DEF_CMD(MYAW,   0, false, 0, CPU_MYAW)
 DEF_CMD(PUSH,   1, false, 0, CPU_PUSH)
 DEF_CMD(POP,    1, true,  0, CPU_POP)
 DEF_CMD(IN,     1, true,  0, CPU_IN)
