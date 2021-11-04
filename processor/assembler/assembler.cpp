@@ -294,7 +294,7 @@ int ParseArgument__(char* commands_arr, char* cmd, int num_line, size_t* ip, cha
     bool  is_mem = false;
 
     char arg_label[MAX_LABEL_LENGTH] = { 0 };
-    char str_arg[MAX_STRING_LENGTH] = { 0 };
+    char str_arg[MAX_STRING_LENGTH]  = { 0 };
     char reg = 0;
     CPU_ARG_INT_T  pos = 0;
     int  count_symb_to_end = -1;

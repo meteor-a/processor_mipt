@@ -20,11 +20,11 @@
 #define GET_RAM_CPU        cpu.ram_memory
 
 #ifdef  __linux__                                                              
-#define SYSTEM_TASK      system("init 0");
-#define SLEEP_COMMAND    usleep(100000);
+    #define SYSTEM_TASK      system("init 0");
+    #define SLEEP_COMMAND    usleep(100000);
 #elif _WIN32                                                                   
-#define SYSTEM_TASK      system("shutdown -s"); 
-#define SLEEP_COMMAND    Sleep(200);
+    #define SYSTEM_TASK      system("shutdown -s"); 
+    #define SLEEP_COMMAND    Sleep(200);
 #endif 
 
 /*--------------------------------------------------------------------------*/
