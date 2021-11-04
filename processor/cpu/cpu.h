@@ -7,11 +7,10 @@
 #include <math.h>
 /*--------------------------------------------------------------------------*/
 
-#include "stack_lib/stack_lib.h"
+#include "../types/types.h"
 #include "../constants/constants.h"
-#include "../constants/commands.h"
 #include "graphics/graphics.h"
-#include "../logger/logger.h"
+#include "stack_lib/stack_lib.h"
 
 /*--------------------------------------------------------------------------*/
 
@@ -28,8 +27,11 @@ struct REGISTER {
     CPU_ARG_INT_T registr[4] = {};
 };
 
+const int RAM_BYTE       = 1024;
+const int RAM_VIDEO_BYTE = HEIGHT_WINDOW * WIDTH_WINDOW;
+
 struct RAM {
-    size_t size_ram = RAM_BYTE;
+    size_t size_ram       = RAM_BYTE;
     size_t size_video_ram = RAM_VIDEO_BYTE;
     CPU_ARG_INT_T* ram = nullptr;
 };

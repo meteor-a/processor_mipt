@@ -11,10 +11,6 @@
 
 /*--------------------------------------------------------------------------*/
 
-#include "../../baselib/base_lib.h"
-
-/*--------------------------------------------------------------------------*/
-
 #define DEBUG_MODE_OFF 0
 #define DEBUG_MODE_ON  1
 
@@ -164,7 +160,12 @@ void      DataPoisonElemsInizialize (StackElem_t* start, StackElem_t* end);
 
 /*-------------------------------------------------------------------------*/
 
-TypeError StackTypeOK                   (Stack_t* stack);
+#if STACK_LEVEL_PROTECTION == STACK_WITHOUT_PROTECTION
+    TypeError StackTypeOK               (Stack_t* /*stack*/);
+#else
+    TypeError StackTypeOK               (Stack_t* stack);
+#endif
+
 TypeError StackTypeOKStandartProtection (Stack_t* stack);
 TypeError StackTypeOKCanaryProtection   (Stack_t* stack);
 TypeError StackTypeOKHashProtection     (Stack_t* stack);

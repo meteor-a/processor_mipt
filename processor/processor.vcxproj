@@ -19,17 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="assembler.txt" />
-    <Text Include="code.txt" />
-    <Text Include="disassembler.txt" />
-    <Text Include="dump_stack.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="makefile" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="assembler\assembler.cpp" />
     <ClCompile Include="assembler\main_assembler.cpp" />
+    <ClCompile Include="base_lib\base_lib.cpp" />
     <ClCompile Include="cpu\cpu.cpp" />
     <ClCompile Include="cpu\graphics\graphics.cpp" />
     <ClCompile Include="cpu\main_cpu.cpp" />
@@ -41,16 +33,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assembler\assembler.h" />
-    <ClInclude Include="baselib\base_lib.h" />
-    <ClInclude Include="constants\cmd_def.h" />
-    <ClInclude Include="constants\commands.h" />
+    <ClInclude Include="assembler\assembler_constants.h" />
+    <ClInclude Include="base_lib\base_lib.h" />
+    <ClInclude Include="commands\cmd_def.h" />
+    <ClInclude Include="commands\commands.h" />
     <ClInclude Include="constants\constants.h" />
     <ClInclude Include="cpu\cpu.h" />
     <ClInclude Include="cpu\graphics\graphics.h" />
     <ClInclude Include="cpu\stack_lib\stack_lib.h" />
     <ClInclude Include="disassembler\disassembler.h" />
+    <ClInclude Include="header\header.h" />
     <ClInclude Include="logger\logger.h" />
     <ClInclude Include="text_lib\text_lib.h" />
+    <ClInclude Include="types\types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

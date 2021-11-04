@@ -1,82 +1,26 @@
-STROUT 0.311
+STROUT 0.109
 IN ax
-STROUT 0.334
-IN bx
-STROUT 0.357
-IN cx
-CALL 0.043
-HLT
-PUSH 0.000
-PUSH ax
-JNE 0.113
-PUSH 0.000
+PUSH ax+1.000
+POP ax
+PUSH 1.000
+PUSH 1.000
+POP bx
+POP cx
+CALL 0.067
 PUSH bx
-JNE 0.170
-PUSH 0.000
-PUSH cx
-JNE 0.179
-STROUT 0.452
-HLT
-CALL 0.189
-PUSH 0.000
-PUSH dx
-JA 0.213
-STROUT 0.427
-CALL 0.223
-CALL 0.254
-HLT
-JMP 0.285
-STROUT 0.380
-HLT
-PUSH bx
-PUSH bx
-MUL
-PUSH 4.000
-PUSH ax
-PUSH cx
-MUL
-MUL
-SUB
-POP dx
-RET
-STROUT 0.380
-HLT
-PUSH -1.000
-PUSH bx
-MUL
-PUSH dx
-SQRT
-ADD
-PUSH 2.000
-PUSH ax
-MUL
-DIV
-OUT
-RET
-PUSH -1.000
-PUSH bx
-MUL
-PUSH dx
-SQRT
-SUB
-PUSH 2.000
-PUSH ax
-MUL
-DIV
-OUT
-RET
-PUSH -1.000
-PUSH cx
-MUL
-PUSH bx
-DIV
-STROUT 0.403
+STROUT 0.126
 OUT
 HLT
-DB $Input a coefficent: $
-DB $Input b coefficent: $
-DB $Input c coefficent: $
-DB $Equation has 0 solve$
-DB $Equation has 1 solve:$
-DB $Equation has 2 solves:$
-DB $Equation has inf solves:$
+PUSH bx
+PUSH cx
+MUL
+POP bx
+PUSH cx+1.000
+POP cx
+PUSH ax
+PUSH cx
+JBE 0.108
+CALL 0.067
+RET
+DB $Input number: $
+DB $Factorial is: $

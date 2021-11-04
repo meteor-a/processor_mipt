@@ -3,7 +3,7 @@ POP ax;cur x
 PUSH 0
 POP bx;cur y
 PUSH 900; radious
-POP cx
+POP gx
 PUSH 300;max x window
 POP [0]
 PUSH 300;max y window

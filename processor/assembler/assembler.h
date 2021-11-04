@@ -3,25 +3,11 @@
 
 /*----------------------------------------*/
 
-#include <stdlib.h>
-
-/*----------------------------------------*/
-
-#include "../constants/constants.h"
-#include "../logger/logger.h"
-#include "../baselib/base_lib.h"
 #include "../text_lib/text_lib.h"
-#include "../constants/commands.h"
 
 /*----------------------------------------*/
 
-struct LABEL_ {
-    char name_label[MAX_LABEL_LENGTH] = { 0 };
-    int  pos = 0;
-};
-
-/*----------------------------------------*/
-
-int CreateAssemblerFile(const char* filename_code, const char* filename_asm);
+#define CreateAssemblerFile(filename_code, filename_asm) CreateAssemblerFile__(filename_code, filename_asm, LOCATION_STRUCT_CALL__{LOCATION__}) 
+int CreateAssemblerFile__(const char* filename_code, const char* filename_asm, LOCATION_STRUCT_CALL__ call_place);
 
 #endif

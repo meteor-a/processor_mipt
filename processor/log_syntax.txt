@@ -1,0 +1,2 @@
+Assembler detect syntaxis error: Failed: Incorrect name of register(correct ax, bx, cx, dx). Command: POP. Line: 5
+Assembler detect syntaxis error: Failed: Incorrect name of register(correct ax, bx, cx, dx). Command: POP. Line: 5

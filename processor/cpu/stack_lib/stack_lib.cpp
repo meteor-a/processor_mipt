@@ -1,4 +1,5 @@
 #include "stack_lib.h"
+#include "../../base_lib/base_lib.h"
 
 TypeError StackConstructor_(Stack_t* stack DEBUG_CODE_ADD(, LOCATION location_call)) {
     if (_IsBadReadPtr(stack)) {
@@ -253,6 +254,9 @@ void DataPoisonElemsInizialize(StackElem_t* start, StackElem_t* end) {
     }
 }
 
+#if STACK_LEVEL_PROTECTION == STACK_WITHOUT_PROTECTION
+TypeError StackTypeOK(Stack_t* /*stack*/) { return TypeError::_SUCCESSFUL; }
+#else
 TypeError StackTypeOK(Stack_t* stack) {
 #if STACK_LEVEL_PROTECTION == STACK_WITHOUT_PROTECTION
     return TypeError::_SUCCESSFUL;
@@ -270,6 +274,7 @@ TypeError StackTypeOK(Stack_t* stack) {
     return StackTypeOKHashProtection(stack);
 #endif // STACK_LEVEL_PROTECTION
 }
+#endif
 
 #if STACK_LEVEL_PROTECTION >= STACK_STAND_PROTECTION
 TypeError StackTypeOKStandartProtection(Stack_t* stack) {
@@ -431,7 +436,7 @@ long long HashFunc(void* start_hash, void* end_hash) {
 
 void StackAbort(Stack_t* stack, TypeError err_ DEBUG_CODE_ADD(, LOCATION location_call)) {
     StackDump(stack, err_ DEBUG_CODE_ADD(, location_call));
-    abort();
+    return;
 }
 
 const char* StackGetTextError(TypeError err) {

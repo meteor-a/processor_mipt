@@ -2,7 +2,7 @@
 
 
 #ifdef _WIN32
-void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t size_mem) {
+void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem) {
     printf("|");
     for (int ii = 0; ii < WIDTH_WINDOW; ++ii) {
         printf("-");
@@ -35,7 +35,7 @@ void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t si
 
 #elif __linux__
 
-void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem, size_t size_mem) {
+void DrawInTerminal(CPU_ARG_INT_T* memory, size_t start_ind_video_mem) {
     sf::RenderWindow window(sf::VideoMode(HEIGHT_WINDOW, WIDTH_WINDOW), "CPU GRAPHICS");
     
     sf::Texture bufferTexture;

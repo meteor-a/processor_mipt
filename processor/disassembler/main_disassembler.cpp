@@ -1,5 +1,7 @@
-
 #include "disassembler.h"
+
+const char* DEFAULT_ASSEMBLER_FILE_NAME    = "assembler.txt";
+const char* DEFAULT_DISASSEMBLER_FILE_NAME = "disassembler.txt";
 
 int main(int argc, char* argv[]) {
     const char* filename_disasm = DEFAULT_DISASSEMBLER_FILE_NAME;
@@ -15,4 +17,4 @@ int main(int argc, char* argv[]) {
 
     CreateTextFromAssembler(filename_asm, filename_disasm);
 }
-   
+           
