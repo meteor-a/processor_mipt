@@ -23,10 +23,10 @@
 [6. Cpu compilation](#Cpu-compilation)  
 [7. Graphic part](#Graphic-part)  
 [8. Syntax error in assembler](#Syntax-error-in-assembler)  
-[9. Запуск ассемблера](#Запуск-ассемблера)  
-[10. Запуск процессора](#Запуск-процессора)  
-[11. Запуск дисассемблера](#Запуск-дисассемблера)  
-[12. Дисассебмлер](#Дисассебмлер)  
+[9. Starting the assembler](#Starting-the-assembler)  
+[10. Starting the cpu](#Starting-the-cpu)  
+[11. Starting the disassembler](#Starting-the-disassembler)  
+[12. Disassembler](#Disassembler)  
 
 ## Репозиторий включает в себя: ассемблер, процессор(исполнитель ассемблерного кода), дисассемблер.
 
