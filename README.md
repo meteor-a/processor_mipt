@@ -21,8 +21,8 @@
 [4. Assembler compilation](#Assembler-compilation)  
 [5. Disassembler compilation](#Disassembler-compilation)  
 [6. Cpu compilation](#Cpu-compilation)  
-[7. Графическая часть](#Графическая-часть)  
-[8. Ошибки синтаксиса в ассемблере](#Ошибки-синтаксиса-в-ассемблере)  
+[7. Graphic part](#Graphic-part)  
+[8. Syntax error in assembler](#Syntax-error-in-assembler)  
 [9. Запуск ассемблера](#Запуск-ассемблера)  
 [10. Запуск процессора](#Запуск-процессора)  
 [11. Запуск дисассемблера](#Запуск-дисассемблера)  
@@ -269,7 +269,7 @@ STROUT TextAboutAhatina
 ### Linux
 > make cpu_sfml
 
-## Graphic part:
+## Graphic part
 The graphics memory starts with 1024 elements, size 512
 ### Windows
 Rendering in the console (everything that is not equal to 0 is rendered as *)
