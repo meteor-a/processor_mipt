@@ -23,12 +23,12 @@ JB | 1 | достать два элемента из стека, сравнит�
 JBE | 1 | достать два элемента из стека, сравнить их (более глубокий <= менее глубокий). Если true, то перейти к метке, иначе продолжить выполнение
 JE | 1 | достать два элемента из стека, сравнить их (более глубокий == менее глубокий). Если true, то перейти к метке, иначе продолжить выполнение
 JNE | 1 | достать два элемента из стека, сравнить их (более глубокий != менее глубокий). Если true, то перейти к метке, иначе продолжить выполнение
-AH | 0 |     - развлекательная команда)0)
-19. **CALL**   - вызов функции(переход к метке)
-20. **RET**    - возврат из функции и продолжение выполнение программы, после call
-21. **GRAPH**  - отрисовка графики
-22. **STROUT** - вывод строки
-23. **DB**     - обозначение строки
+AH | 0 | развлекательная команда)0)
+CALL | 1 | вызов функции(переход к метке)
+RET | 0 | возврат из функции и продолжение выполнение программы, после call
+GRAPH | 0 | отрисовка графики
+STROUT | 1 | вывод строки
+DB | 1 | обозначение строки
 
 ### Примеры программ
 Примеры находятся в папке examples
@@ -36,34 +36,46 @@ AH | 0 |     - развлекательная команда)0)
 ### Синтаксис команд
 
 1. **PUSH**:  
-PUSH 5    - положить число 5 в стэк  
-PUSH [5]  - положить в стек число из 5 ячейки ОЗУ  
-PUSH ax   - положить в стэк значение регистра ax  
-PUSH [ax] - положить в стек число из ячейки ОЗУ с номером, лежащем в ax (ОЗУ[ax])  
-PUSH 5+ax - положить в стек число, полученно в результате сложения 5 и числа из регистра ax  
-PUSH ax+5 - положить в стек число, полученно в результате сложения 5 и числа из регистра ax   
-PUSH 5.23 - положить число 5.23 в стэк  
+
+Команда | описание
+--- | ---
+PUSH 5 | положить число 5 в стэк  
+PUSH [5] | положить в стек число из 5 ячейки ОЗУ  
+PUSH ax | положить в стэк значение регистра ax  
+PUSH [ax] | положить в стек число из ячейки ОЗУ с номером, лежащем в ax (ОЗУ[ax])  
+PUSH 5+ax | положить в стек число, полученно в результате сложения 5 и числа из регистра ax  
+PUSH ax+5 | положить в стек число, полученно в результате сложения 5 и числа из регистра ax   
+PUSH 5.23 | положить число 5.23 в стэк  
 
 2. **POP**:  
-POP ax     - достать число из стека и положить его в регистр ax  
-POP [5]    - достать число из стека и положить его в ячейку 5 ОЗУ  
-POP [ax+5] - достать число из стека и положить его в ячейку ОЗУ с номером, ax + 5  
-POP [5+ax] - достать число из стека и положить его в ячейку ОЗУ с номером, ax + 5  
+
+Команда | описание
+--- | ---
+POP ax | достать число из стека и положить его в регистр ax  
+POP [5] | достать число из стека и положить его в ячейку 5 ОЗУ  
+POP [ax+5] | достать число из стека и положить его в ячейку ОЗУ с номером, ax + 5  
+POP [5+ax] | достать число из стека и положить его в ячейку ОЗУ с номером, ax + 5  
 
 3. **IN**:  
-IN ax     - считать число и положить его в регистр ax  
-IN [5]    - считать число и положить его в ячейку 5 ОЗУ  
-IN [ax+5] - считать число и положить его в ячейку ОЗУ с номером, ax + 5  
-IN [5+ax] - считать число и положить его в ячейку ОЗУ с номером, ax + 5  
+
+Команда | описание
+--- | ---
+IN ax | считать число и положить его в регистр ax  
+IN [5] | считать число и положить его в ячейку 5 ОЗУ  
+IN [ax+5] | считать число и положить его в ячейку ОЗУ с номером, ax + 5  
+IN [5+ax] | считать число и положить его в ячейку ОЗУ с номером, ax + 5  
 
 4. **JMP**/**JA**/**JAE**/**JB**/**JBE**/**JE**/**JNE**/**CALL**:  
 **Команда** *метка*  
 
 5. Примеры **Метки**:  
-Label  
-Cur  
-DFG  
-bv  
+
+Команда | описание
+--- | ---
+Label | метка
+Cur | метка
+DFG | метка
+bv | метка
 
 6. Объявление **Метки**:  
 Label:  
@@ -126,29 +138,32 @@ STROUT TextAboutAhatina
 ## The repository includes: assembler, processor (assembler code executor), disassembler.
 
 ### Commands supported by the processor:
-1. **HLT** - end of the program
-2. **PUSH** - put an item on the stack
-3. **POP** - get an element from the stack
-4. **IN** - count the element
-5. **OUT** - output the element
-6. **ADD** - get two elements from the stack, fold them and put the result back
-7. **SUB** - get two elements from the stack, clean them and put the result back
-8. **MUL** - get two elements from the stack, multiply them and put the result back
-9. **DIV** - get two elements from the stack, divide (integer) them and put the result back
-10. **SQRT** - get an element from the stack, calculate its square root and put the result back
-11. **JMP** - go to the label without condition
-12. **JA** - get two elements from the stack, compare them (deeper > less deep). If true, then go to the label, otherwise continue execution
-13. **JAE** - get two elements from the stack, compare them (deeper >= less deep). If true, then go to the label, otherwise continue execution
-14. **JB** - get two elements from the stack, compare them (deeper < less deep). If true, then go to the label, otherwise continue execution
-15. **JBE** - get two elements from the stack, compare them (deeper <= less deep). If true, then go to the label, otherwise continue execution
-16. **JE** - get two elements from the stack, compare them (deeper == less deep). If true, then go to the label, otherwise continue execution
-17. **JNE** - get two elements from the stack, compare them (deeper!= less deep). If true, then go to the label, otherwise continue execution
-18. **AH** - entertainment command) 0)
-19. **CALL** - function call(transition to label)
-20. **RET** - return from function and continue program execution, after call
-21. **GRAPH** - drawing graphics
-22. **STROUT** - line output
-23. **DB** - string designation
+
+Command | number of arguments | description
+--- | --- | ---
+HLT | 0 / end of program
+PUSH | 1 | put an item on the stack
+POP | 1 | get an element from the stack
+IN | 1 / count element
+OUT | 0 / output element
+ADD | 0 / get two elements from the stack, add them up and put the result back
+SUB | 0 / get two elements from the stack, clean them and put the result back
+MUL | 0 / get two elements from the stack, multiply them and put the result back
+DIV | 0 / get two elements from the stack, divide them (integer) and put the result back
+SQRT | 0 / get an element from the stack, calculate its square root and put the result back
+JMP | 1 / go to label without condition
+JA | 1 / get two elements from the stack, compare them (deeper > less deep). If true, then go to the label, otherwise continue execution
+JAE | 1 / get two elements from the stack, compare them (deeper >= less deep). If true, then go to the label, otherwise continue execution
+JB | 1 / get two elements from the stack, compare them (deeper < less deep). If true, then go to the label, otherwise continue execution
+JBE | 1 / get two elements from the stack, compare them (deeper <= less deep). If true, then go to the label, otherwise continue execution
+JE | 1 / get two elements from the stack, compare them (deeper == less deep). If true, then go to the label, otherwise continue execution
+JNE | 1 / get two elements from the stack, compare them (deeper!= less deep). If true, then go to the label, otherwise continue execution
+AH | 0 / entertainment team)0)
+CALL | 1 | function call(transition to label)
+RET | 0 | return from function and continue program execution, after call
+GRAPH | 0 | drawing graphics
+STROUT | 1 / line output
+DB | 1 / string designation
 
 ### Sample programs
 Examples are located in the examples folder
@@ -156,34 +171,46 @@ Examples are located in the examples folder
 ### Command syntax
 
 1. **PUSH**:
-PUSH 5 - put the number 5 on the stack
-PUSH [5] - put a number of 5 RAM cells on the stack
-PUSH ax - put the value of the ax register on the stack
-PUSH [ax] - put on the stack a number from a RAM cell with a number lying in ax (RAM[ax])
-PUSH 5+ax - put on the stack a number obtained by adding 5 and a number from the ax register
-PUSH ax+5 - put a number on the stack resulting from the addition of 5 and a number from the ax register
-PUSH 5.23 - put the number 5.23 on the stack
+
+Command / Description
+--- / ---
+PUSH 5 | put the number 5 on the stack
+PUSH [5] | put a number of 5 RAM cells on the stack
+PUSH ax | put the value of the ax register on the stack
+PUSH [ax] | put on the stack a number from a RAM cell with a number lying in ax (RAM[ax])
+PUSH 5+ax | put a number on the stack resulting from the addition of 5 and a number from the ax register
+PUSH ax+5 | put a number on the stack resulting from the addition of 5 and a number from the ax register
+PUSH 5.23 | put the number 5.23 on the stack
 
 2. **POP**:
-POP ax - get a number from the stack and put it in the ax register
-POP [5] - get a number from the stack and put it in cell 5 of RAM
-POP [ax+5] - get a number from the stack and put it in the RAM cell with the number, ax + 5
-POP [5+ax] - get a number from the stack and put it in the RAM cell with the number, ax + 5
+
+Command / Description
+--- / ---
+POP ax | get a number from the stack and put it in the ax register
+POP [5] / get a number from the stack and put it in cell 5 of RAM
+POP [ax+5] / get a number from the stack and put it in the RAM cell with the number, ax + 5
+POP [5+ax] / get a number from the stack and put it in the RAM cell with the number, ax + 5
 
 3. **IN**:
-IN ax - count a number and put it in the ax register
-IN [5] - count a number and put it in cell 5 of RAM
-IN [ax+5] - count the number and put it in the RAM cell with the number, ax + 5
-IN [5+ax] - count a number and put it in the RAM cell with the number, ax + 5
+
+Command / Description
+--- | ---
+IN ax | count a number and put it in the ax register
+IN [5] / count a number and put it in cell 5 of RAM
+IN [ax+5] / count a number and put it in the RAM cell with the number, ax + 5
+IN [5+ax] / count the number and put it in the RAM cell with the number, ax + 5
 
 4. **JMP**/**JA**/**JAE**/**JB**/**JBE**/**JE**/**JNE**/**CALL**:
 **Command** *label*
 
 5. Examples of **Labels**:
-Label
-Cur
-DFG
-bv
+
+Command / Description
+--- / ---
+Label | Label
+Cur / label
+DFG / label
+bv / label
 
 6. Ad **Tags**:
 Label:
