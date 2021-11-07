@@ -1,5 +1,3 @@
-## my-script.sh
-
 # Русский
 
 ## Репозиторий включает в себя: ассемблер, процессор(исполнитель ассемблерного кода), дисассемблер.
@@ -137,7 +135,7 @@ STROUT TextAboutAhatina
 
 # English
 
-[my-script.sh](#my-scriptsh)
+[Русский](#Русский)
 
 ## The repository includes: assembler, processor (assembler code executor), disassembler.
 
