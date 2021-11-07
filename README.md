@@ -141,29 +141,29 @@ STROUT TextAboutAhatina
 
 Command | number of arguments | description
 --- | --- | ---
-HLT | 0 / end of program
+HLT | 0 | end of program
 PUSH | 1 | put an item on the stack
 POP | 1 | get an element from the stack
-IN | 1 / count element
-OUT | 0 / output element
-ADD | 0 / get two elements from the stack, add them up and put the result back
-SUB | 0 / get two elements from the stack, clean them and put the result back
-MUL | 0 / get two elements from the stack, multiply them and put the result back
-DIV | 0 / get two elements from the stack, divide them (integer) and put the result back
-SQRT | 0 / get an element from the stack, calculate its square root and put the result back
-JMP | 1 / go to label without condition
-JA | 1 / get two elements from the stack, compare them (deeper > less deep). If true, then go to the label, otherwise continue execution
-JAE | 1 / get two elements from the stack, compare them (deeper >= less deep). If true, then go to the label, otherwise continue execution
-JB | 1 / get two elements from the stack, compare them (deeper < less deep). If true, then go to the label, otherwise continue execution
-JBE | 1 / get two elements from the stack, compare them (deeper <= less deep). If true, then go to the label, otherwise continue execution
-JE | 1 / get two elements from the stack, compare them (deeper == less deep). If true, then go to the label, otherwise continue execution
-JNE | 1 / get two elements from the stack, compare them (deeper!= less deep). If true, then go to the label, otherwise continue execution
-AH | 0 / entertainment team)0)
+IN | 1 | count element
+OUT | 0 | output element
+ADD | 0 | get two elements from the stack, add them up and put the result back
+SUB | 0 | get two elements from the stack, clean them and put the result back
+MUL | 0 | get two elements from the stack, multiply them and put the result back
+DIV | 0 | get two elements from the stack, divide them (integer) and put the result back
+SQRT | 0 | get an element from the stack, calculate its square root and put the result back
+JMP | 1 | go to label without condition
+JA | 1 | get two elements from the stack, compare them (deeper > less deep). If true, then go to the label, otherwise continue execution
+JAE | 1 | get two elements from the stack, compare them (deeper >= less deep). If true, then go to the label, otherwise continue execution
+JB | 1 | get two elements from the stack, compare them (deeper < less deep). If true, then go to the label, otherwise continue execution
+JBE | 1 | get two elements from the stack, compare them (deeper <= less deep). If true, then go to the label, otherwise continue execution
+JE | 1 | get two elements from the stack, compare them (deeper == less deep). If true, then go to the label, otherwise continue execution
+JNE | 1 | get two elements from the stack, compare them (deeper!= less deep). If true, then go to the label, otherwise continue execution
+AH | 0 | entertainment team)0)
 CALL | 1 | function call(transition to label)
 RET | 0 | return from function and continue program execution, after call
 GRAPH | 0 | drawing graphics
-STROUT | 1 / line output
-DB | 1 / string designation
+STROUT | 1 | line output
+DB | 1 | string designation
 
 ### Sample programs
 Examples are located in the examples folder
