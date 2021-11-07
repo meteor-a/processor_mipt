@@ -18,9 +18,9 @@
 [1. Commands](#Commands)  
 [2. Sample programs](#Sample-programs)  
 [3. Commands syntax](#Commands-syntax)  
-[4. Компиляция ассемблера](#Компиляция-ассемблера)  
-[5. Компиляция дисассемблера](#Компиляция-дисассемблера)  
-[6. Компиляция процессора](#Компиляция-процессора)  
+[4. Assembler compilation](#Assembler-compilation)  
+[5. Disassembler compilation](#Disassembler-compilation)  
+[6. Cpu compilation](#Cpu-compilation)  
 [7. Графическая часть](#Графическая-часть)  
 [8. Ошибки синтаксиса в ассемблере](#Ошибки-синтаксиса-в-ассемблере)  
 [9. Запуск ассемблера](#Запуск-ассемблера)  
@@ -256,13 +256,13 @@ DB $text$
 9. Line output:
 STROUT TextAboutAhatina
 
-## Assembler compilation:
+## Assembler compilation
 > make asm
 
-## Disassembler compilation:
+## Disassembler compilation
 > make disasm
 
-## CPU Compilation:
+## CPU Compilation
 ### Windows
 > make cpu
 
