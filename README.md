@@ -187,18 +187,18 @@ PUSH 5.23 | put the number 5.23 on the stack
 Command / Description
 --- / ---
 POP ax | get a number from the stack and put it in the ax register
-POP [5] / get a number from the stack and put it in cell 5 of RAM
-POP [ax+5] / get a number from the stack and put it in the RAM cell with the number, ax + 5
-POP [5+ax] / get a number from the stack and put it in the RAM cell with the number, ax + 5
+POP [5] | get a number from the stack and put it in cell 5 of RAM
+POP [ax+5] | get a number from the stack and put it in the RAM cell with the number, ax + 5
+POP [5+ax] | get a number from the stack and put it in the RAM cell with the number, ax + 5
 
 3. **IN**:
 
 Command / Description
 --- | ---
 IN ax | count a number and put it in the ax register
-IN [5] / count a number and put it in cell 5 of RAM
-IN [ax+5] / count a number and put it in the RAM cell with the number, ax + 5
-IN [5+ax] / count the number and put it in the RAM cell with the number, ax + 5
+IN [5] | count a number and put it in cell 5 of RAM
+IN [ax+5] | count a number and put it in the RAM cell with the number, ax + 5
+IN [5+ax] | count the number and put it in the RAM cell with the number, ax + 5
 
 4. **JMP**/**JA**/**JAE**/**JB**/**JBE**/**JE**/**JNE**/**CALL**:
 **Command** *label*
@@ -208,9 +208,9 @@ IN [5+ax] / count the number and put it in the RAM cell with the number, ax + 5
 Command / Description
 --- / ---
 Label | Label
-Cur / label
-DFG / label
-bv / label
+Cur | label
+DFG | label
+bv | label
 
 6. Ad **Tags**:
 Label:
