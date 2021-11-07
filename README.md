@@ -1,8 +1,11 @@
 # Разделы
-[Русский](#Русский)  
-[Команды](#Команды)  
+
 
 # Русский
+[1. Команды](#Команды)  
+
+# English
+[1. Commands](#Commands)  
 
 ## Репозиторий включает в себя: ассемблер, процессор(исполнитель ассемблерного кода), дисассемблер.
 
@@ -141,7 +144,7 @@ STROUT TextAboutAhatina
 
 ## The repository includes: assembler, processor (assembler code executor), disassembler.
 
-### Commands supported by the processor:
+### Commands:
 
 Command | number of arguments | description
 --- | --- | ---
