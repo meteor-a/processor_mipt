@@ -1,3 +1,5 @@
+## my-script.sh
+
 # Русский
 
 ## Репозиторий включает в себя: ассемблер, процессор(исполнитель ассемблерного кода), дисассемблер.
@@ -134,6 +136,8 @@ STROUT TextAboutAhatina
 Необходим для расшифровки ассемблерного кода в "человеческий". При это метки заменяются на позицию в ассемблерном коде
 
 # English
+
+[my-script.sh](#my-scriptsh)
 
 ## The repository includes: assembler, processor (assembler code executor), disassembler.
 
