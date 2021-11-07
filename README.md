@@ -16,6 +16,17 @@
 
 # English
 [1. Commands](#Commands)  
+[2. Sample programs](#Sample-programs)  
+[3. Commands syntax](#Commands-syntax)  
+[4. Компиляция ассемблера](#Компиляция-ассемблера)  
+[5. Компиляция дисассемблера](#Компиляция-дисассемблера)  
+[6. Компиляция процессора](#Компиляция-процессора)  
+[7. Графическая часть](#Графическая-часть)  
+[8. Ошибки синтаксиса в ассемблере](#Ошибки-синтаксиса-в-ассемблере)  
+[9. Запуск ассемблера](#Запуск-ассемблера)  
+[10. Запуск процессора](#Запуск-процессора)  
+[11. Запуск дисассемблера](#Запуск-дисассемблера)  
+[12. Дисассебмлер](#Дисассебмлер)  
 
 ## Репозиторий включает в себя: ассемблер, процессор(исполнитель ассемблерного кода), дисассемблер.
 
@@ -154,7 +165,7 @@ STROUT TextAboutAhatina
 
 ## The repository includes: assembler, processor (assembler code executor), disassembler.
 
-### Commands:
+### Commands  
 
 Command | number of arguments | description
 --- | --- | ---
@@ -185,7 +196,7 @@ DB | 1 | string designation
 ### Sample programs
 Examples are located in the examples folder
 
-### Command syntax
+### Commands syntax
 
 1. **PUSH**:
 
